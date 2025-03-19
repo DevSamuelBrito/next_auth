@@ -1,16 +1,49 @@
-
 "use client";
-
 import { signIn } from "next-auth/react";
-
-//temos que usar o cliente para que para a função de SignIn no futuro
+import { redirect } from "next/navigation";
+import React, { useState } from "react";
 
 export default function Home() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,  // Impede o redirecionamento automático
+    });
+
+    if (result?.error) {
+      console.log(result.error);
+      alert("Credenciais inválidas");
+    } else {
+      alert("Logado com sucesso");
+      redirect("/dashboard");
+    }
+  };
+
   return (
-    <main className="flex justify-center items-center h-screen">
-      <button className="bg-blue-200 rounded-2xl px-2 py-2 border-2 font-bold"
-        onClick={() => signIn('github', {callbackUrl: "/dashboard"})}
-      >Login com Github</button>
+    <main className="flex justify-center items-center h-screen flex-col">
+      <form onSubmit={handleSubmit}>
+        <label>Email</label>
+        <input
+          className="rounded-md gap-2 text-bold border-2"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <label>Senha</label>
+        <input
+          className="rounded-md gap-2 text-bold border-2"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button type="submit" className="bg-amber-800 px-2 py-2">Enviar</button>
+      </form>
     </main>
   );
 }
