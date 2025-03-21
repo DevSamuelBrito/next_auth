@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
   title: "Next Auth",
@@ -12,9 +13,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-br">
-      <body>
-        {children}
+    <html lang="pt-br" className="dark">      
+      <body className="bg-background text-foreground">
+        <ThemeProvider attribute="class">
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
