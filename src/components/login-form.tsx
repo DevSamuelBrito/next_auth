@@ -9,11 +9,36 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+//autenticação
+import { signIn } from "next-auth/react";
+import { redirect } from "next/navigation";
+import React, { useState } from "react";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false
+    })
+
+    if (result?.error) {
+      console.log(result.error)
+      alert("Credenciais inválidas")
+    } else {
+      alert("Logado com sucesso")
+      redirect("/dashboard")
+    }
+  }
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -24,15 +49,17 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-3">
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
                   type="email"
+                  value={email}
                   placeholder="m@example.com"
                   required
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="grid gap-3">
@@ -45,7 +72,14 @@ export function LoginForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input
+                  id="password"
+                  value={password}
+                  type="password"
+                  required
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="********"
+                />
               </div>
               <div className="flex flex-col gap-3">
                 <Button type="submit" className="w-full">
