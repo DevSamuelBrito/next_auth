@@ -15,7 +15,7 @@ import { redirect } from "next/navigation";
 import React, { useState } from "react";
 import Link from "next/link"
 
-export function LoginForm({
+export function SignUpForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
@@ -44,9 +44,9 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
+          <CardTitle>Sign Up to your account</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Enter your email below to sign up to your account
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -66,12 +66,6 @@ export function LoginForm({
               <div className="grid gap-3">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a>
                 </div>
                 <Input
                   id="password"
@@ -84,15 +78,14 @@ export function LoginForm({
               </div>
               <div className="flex flex-col gap-3">
                 <Button type="submit" className="w-full">
-                  Login
+                  Sign Up
                 </Button>
-
               </div>
             </div>
             <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{" "}
-              <Link href="/signup" className="underline underline-offset-4">
-                Sign up
+              Already have an account?{" "}
+              <Link href="/" className="underline underline-offset-4">
+                Login
               </Link>
             </div>
           </form>
