@@ -9,8 +9,6 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-//autenticação
-import { signIn } from "next-auth/react";
 import { redirect } from "next/navigation";
 import React, { useState } from "react";
 import Link from "next/link"
@@ -19,25 +17,29 @@ export function SignUpForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const result = await signIn("credentials", {
-      email,
-      password,
-      redirect: false
+    const response = await fetch("/api/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ name, email, password })
     })
 
-    if (result?.error) {
-      console.log(result.error)
-      alert("Credenciais inválidas")
-    } else {
-      alert("Logado com sucesso")
-      redirect("/dashboard")
+    const data = await response.json()
+
+    if (!response.ok) {
+      alert(data.error || "Erro ao criar usuário")
+      return;
     }
+
+    alert("Usuário criado com sucesso!");
+    redirect("/");
   }
 
   return (
@@ -52,6 +54,17 @@ export function SignUpForm({
         <CardContent>
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
+              <div className="grid gap-3">
+                <Label htmlFor="email">Name</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  value={name}
+                  placeholder="Username"
+                  required
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
               <div className="grid gap-3">
                 <Label htmlFor="email">Email</Label>
                 <Input
