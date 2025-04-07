@@ -1,5 +1,7 @@
 "use client"
 
+import { useState, useEffect } from "react"
+
 import * as React from "react"
 import {
   AudioWaveform,
@@ -31,7 +33,6 @@ const data = {
   user: {
     name: "shadcn",
     email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
   },
   teams: [
     {
@@ -156,7 +157,44 @@ const data = {
   ],
 }
 
+interface UserProps {
+  name: string,
+  email: string
+}
+
+async function fetchUser() {
+  const res = await fetch('api/user');
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch data');
+  }
+  return res.json();
+}
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [user, setUser] = useState<UserProps| null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+
+    async function loadUser() {
+      try {
+        const userData = await fetchUser();
+        setUser(userData);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadUser();
+  }, []);
+
+  if (loading) {
+    <div>Carregando...</div>
+  }
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -167,7 +205,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+      {user && <NavUser user={user} />}
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
