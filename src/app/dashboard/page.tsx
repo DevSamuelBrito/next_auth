@@ -13,36 +13,20 @@ import {
     SidebarProvider,
     SidebarTrigger,
 } from "@/components/ui/sidebar"
+import { authOptions } from "@/lib/auth"
 import { getServerSession } from "next-auth"
 import { redirect } from "next/navigation";
 
 
-// import { getServerSession } from "next-auth";
-// import { redirect } from "next/navigation";
-// import { ButtonLogOut } from "./components/buttonLogOut";
-// export default async function Dashboard() {
-//     const session = await getServerSession();
-//     if (!session) {
-//         redirect("/");
-//     }
-
-//     return (
-//         <div>
-//             <h1>Olá {session?.user?.name}</h1>
-//             <h1>Seu email é: {session?.user?.email}</h1>
-//             <p>Seja bem vindo ao painel de controle</p>
-//             <ButtonLogOut />
-//         </div>
-//     );
-// }
 
 export default async function Page() {
 
-    const session = await getServerSession();
+    const session = await getServerSession(authOptions);
 
     if (!session) {
         redirect("/");
     }
+
     return (
         <SidebarProvider>
             <AppSidebar />
@@ -57,14 +41,14 @@ export default async function Page() {
                         <Breadcrumb>
                             <BreadcrumbList>
                                 <BreadcrumbItem className="hidden md:block">
-                                    <BreadcrumbLink href="#">
-                                        Building Your Application
+                                    <BreadcrumbLink>
+                                        Sua Galeria
                                     </BreadcrumbLink>
                                 </BreadcrumbItem>
-                                <BreadcrumbSeparator className="hidden md:block" />
-                                <BreadcrumbItem>
+                                {/* <BreadcrumbSeparator className="hidden md:block" /> */}
+                                {/* <BreadcrumbItem>
                                     <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                                </BreadcrumbItem>
+                                </BreadcrumbItem> */}
                             </BreadcrumbList>
                         </Breadcrumb>
                     </div>
