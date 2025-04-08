@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/sidebar"
 import { signOut } from "next-auth/react"
 import avatar from "@/images/icon.png"
+import { redirect } from "next/navigation";
 
 export function NavUser({
   user,
@@ -41,7 +42,7 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
-  
+
 
   return (
     <SidebarMenu>
@@ -90,9 +91,9 @@ export function NavUser({
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => redirect("/dashboard/account")}>
                 <BadgeCheck />
-                Account
+                  Account
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Bell />
@@ -100,9 +101,9 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => signOut()}>
               <LogOut />
-              <button onClick={() => signOut()}>Log Out</button>
+              Log Out
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
