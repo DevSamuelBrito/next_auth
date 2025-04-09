@@ -20,4 +20,6 @@ model User {
   password String
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
+  profilePicture String? 
+  images String[] @default([])
 }
