@@ -2,6 +2,7 @@ import { authOptions } from "@/lib/auth";
 import ImageUpload from "./components/ImageUpload";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
+import ButtonLogOut from "./components/ButtonLogOut";
 
 
 const Account = async () => {
@@ -14,7 +15,8 @@ const Account = async () => {
     const user = session.user;
     return (
         <div className="flex flex-col">
-            Hello {user?.name || 'User'} 
+            Bem vindo(a) {user?.name || 'User'} 
+           <ButtonLogOut />
             <ImageUpload />
         </div>
     );
