@@ -5,10 +5,16 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
+type ImageData = {
+    id: string,
+    secureUrl: string,
+    publicId: string,
+}
+
 
 export default function ImageUpload() {
     const [file, setFile] = useState<File | null>(null);
-    const [imageUrl, setImageUrl] = useState<string[]>([]); // mudando o useSte para um array de string
+    const [imageUrl, setImageUrl] = useState<ImageData[]>([]); // mudando o useSte para um array de string
     const [loading, setLoading] = useState(false);
     const [preview, setPreview] = useState<string | null>(null)
     const [uploadError, setUploadError] = useState(false);
@@ -22,13 +28,14 @@ export default function ImageUpload() {
         }
     }, [preview]);
 
-    useEffect(() => {
-        const fetchImages = async () => {
-            const res = await fetch("/api/getImagesUser");
-            const data = await res.json();
-            setImageUrl(data.images);
-        }
 
+    const fetchImages = async () => {
+        const res = await fetch("/api/getImagesUser");
+        const data = await res.json();
+        setImageUrl(data.images);
+    }
+
+    useEffect(() => {
         fetchImages();
     }, [])
 
@@ -56,18 +63,30 @@ export default function ImageUpload() {
 
         try {
             const data = JSON.parse(text); // aqui eu tento  converter para JSON
-            setLoading(false);
-
-            if (data.secure_url) {
-                setImageUrl((prev) => [...prev, data.secure_url]);// aqui ele vai pegar o array anterior e vai adicionar a nova imagem.
+            if (data.secure_url && data.public_id) {
+                setImageUrl(
+                    (prev) =>
+                        [
+                            ...prev,
+                            {
+                                id: data.id,
+                                secureUrl: data.secure_url,
+                                publicId: data.public_id
+                            },
+                        ]
+                );// aqui ele vai pegar o array anterior e vai adicionar a nova imagem.
                 toast.success("Imagem enviada com sucesso!");
             }
         } catch (error) {
             console.error("Erro ao converter JSON:", error);
             toast.error("Erro ao fazer upload da imagem.");
+        } finally {
+            setLoading(false);
+            setPreview(null);
+            setTimeout(() => {
+                fetchImages();
+            }, 2000)
         }
-        setLoading(false);
-        setPreview(null);
     }
 
     return (
@@ -145,11 +164,11 @@ export default function ImageUpload() {
                     imageUrl.length > 0 ? (
                         <div className="mt-4 grid grid-cols-3 gap-4 mb-4">
                             {
-                                imageUrl.map((url, index) => (
-                                    <div key={index} className="aspect-video rounded-xl">
+                                imageUrl.map((img) => (
+                                    <div key={img.id} className="aspect-video rounded-xl">
                                         <Image
-                                            src={url.toString()}
-                                            alt={`Image ${index}`}
+                                            src={img.secureUrl}
+                                            alt={`Image ${img.id}`}
                                             className="w-full h-full object-cover rounded-xl"
                                             width={300}
                                             height={200}

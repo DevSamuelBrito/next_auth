@@ -56,7 +56,13 @@ export async function POST(req: Request) {
       }
     });
 
-    return NextResponse.json(uploadReponse);
+    return NextResponse.json(
+      {
+        id: uploadReponse.public_id,
+        secureUrl: uploadReponse.secure_url,
+        publicId: uploadReponse.public_id,
+      }
+    );
   } catch (error) {
     return NextResponse.json(
       { error: "Error uploading image" },

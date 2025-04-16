@@ -14,8 +14,11 @@ export async function GET() {
     where: {
       email: session.user?.email as string,
     },
-    select: { images: true },
+    include: {
+      images: true, 
+    },
   });
+  
 
   return NextResponse.json({ images: user?.images || [] });
 }
