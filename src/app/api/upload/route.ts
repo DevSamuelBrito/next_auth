@@ -44,15 +44,16 @@ export async function POST(req: Request) {
       );
     }
 
-    await prisma.user.update({
-      where: {
-        email: session.user?.email as string,
-      },
-      data: {
-        images: {
-          push: uploadReponse.secure_url,
-        },
-      },
+    await prisma.userImage.create({
+      data:{
+        secureUrl: uploadReponse.secure_url,
+        publicId: uploadReponse.public_id,
+        user:{
+          connect:{
+            email: session.user?.email as string,
+          }
+        }
+      }
     });
 
     return NextResponse.json(uploadReponse);
