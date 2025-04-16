@@ -21,5 +21,13 @@ model User {
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
   profilePicture String? 
-  images String[] @default([])
+  images UserImage[]
+}
+
+model UserImage {
+  id String @id @default(cuid())
+  secureUrl String 
+  publicId String
+  userId String
+  user User @relation(fields: [userId],references: [id])
 }
