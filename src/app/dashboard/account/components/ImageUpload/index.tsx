@@ -30,7 +30,12 @@ export default function ImageUpload() {
 
 
     const fetchImages = async () => {
-        const res = await fetch("/api/getImagesUser");
+        const res = await fetch("/api/getImagesUser",
+            {
+                method: "GET",
+                cache: "no-store",
+            }
+        );
         const data = await res.json();
         setImageUrl(data.images);
     }
@@ -64,17 +69,15 @@ export default function ImageUpload() {
         try {
             const data = JSON.parse(text); // aqui eu tento  converter para JSON
             if (data.secure_url && data.public_id) {
-                setImageUrl(
-                    (prev) =>
-                        [
-                            ...prev,
-                            {
-                                id: data.id,
-                                secureUrl: data.secure_url,
-                                publicId: data.public_id
-                            },
-                        ]
-                );// aqui ele vai pegar o array anterior e vai adicionar a nova imagem.
+                setImageUrl(prev => [
+                    ...prev,
+                    {
+                        id: data.id,
+                        secureUrl: data.secureUrl,
+                        publicId: data.publicId,
+                    },
+                ]);
+                ;// aqui ele vai pegar o array anterior e vai adicionar a nova imagem.
                 toast.success("Imagem enviada com sucesso!");
             }
         } catch (error) {
@@ -165,7 +168,7 @@ export default function ImageUpload() {
                         <div className="mt-4 grid grid-cols-3 gap-4 mb-4">
                             {
                                 imageUrl.map((img) => (
-                                    <div key={img.id} className="aspect-video rounded-xl">
+                                    <div key={img.id} className="relative aspect-video rounded-xl group">
                                         <Image
                                             src={img.secureUrl}
                                             alt={`Image ${img.id}`}
@@ -173,7 +176,23 @@ export default function ImageUpload() {
                                             width={300}
                                             height={200}
                                         />
+                                        <button
+                                            onClick={async () => {
+                                                console.log(img.id)
+                                                await fetch("/api/deleteImage", {
+                                                    method: "DELETE",
+                                                    body: JSON.stringify({ publicId: img.publicId }),
+                                                    headers: { "Content-Type": "application/json" },
+                                                });
+                                                console.log("Imagem excluída com sucesso");
+                                                // toast.success("Imagem excluída com sucesso!");
+                                            }}
+                                            className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition"
+                                        >
+                                            🗑
+                                        </button>
                                     </div>
+
                                 ))
                             }
                         </div>
