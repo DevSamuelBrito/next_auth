@@ -66,12 +66,12 @@ export default async function Page() {
                         {
                             allImages.length > 0 ? (
 
-                                allImages.map((url, index) => (
-                                    url ? (
+                                allImages.map((image, index) => (
+                                    image ? (
 
                                         <div key={index} className="aspect-video rounded-xl">
                                             <Image
-                                                src={url.toString()}
+                                                src={image.secureUrl}
                                                 alt={`Image ${index}`}
                                                 className="w-full h-full object-cover rounded-xl"
                                                 width={300}
