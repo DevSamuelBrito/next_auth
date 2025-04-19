@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { Trash } from "lucide-react";
 
 type ImageData = {
     id: string,
@@ -184,12 +185,12 @@ export default function ImageUpload() {
                                                     body: JSON.stringify({ publicId: img.publicId }),
                                                     headers: { "Content-Type": "application/json" },
                                                 });
-                                                console.log("Imagem excluída com sucesso");
-                                                // toast.success("Imagem excluída com sucesso!");
+                                                toast.success("Imagem excluída com sucesso!");
                                             }}
-                                            className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition"
+                                            className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition border-2 border-white hover:scale-110 duration-150"
                                         >
-                                            🗑
+                                            <Trash className="text-white" />
+
                                         </button>
                                     </div>
 
