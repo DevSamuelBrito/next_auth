@@ -19,7 +19,6 @@ const Account = async () => {
             Bem vindo(a) {user?.name || 'User'} 
            <ButtonLogOut />
             <ImageUpload />
-            <DialogExemplo />
         </div>
     );
 }

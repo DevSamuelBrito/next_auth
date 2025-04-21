@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Trash } from "lucide-react";
+import { CardImagem } from "../CardComImagem";
 
 type ImageData = {
     id: string,
@@ -69,7 +70,7 @@ export default function ImageUpload() {
 
         try {
             const data = JSON.parse(text); // aqui eu tento  converter para JSON
-            if (data.secure_url && data.public_id) {
+            if (data.secureUrl && data.publicId) {
                 setImageUrl(prev => [
                     ...prev,
                     {
@@ -77,8 +78,7 @@ export default function ImageUpload() {
                         secureUrl: data.secureUrl,
                         publicId: data.publicId,
                     },
-                ]);
-                ;// aqui ele vai pegar o array anterior e vai adicionar a nova imagem.
+                ]);// aqui ele vai pegar o array anterior e vai adicionar a nova imagem.
                 toast.success("Imagem enviada com sucesso!");
             }
         } catch (error) {
@@ -87,9 +87,6 @@ export default function ImageUpload() {
         } finally {
             setLoading(false);
             setPreview(null);
-            setTimeout(() => {
-                fetchImages();
-            }, 2000)
         }
     }
 
@@ -169,30 +166,49 @@ export default function ImageUpload() {
                         <div className="mt-4 grid grid-cols-3 gap-4 mb-4">
                             {
                                 imageUrl.map((img) => (
-                                    <div key={img.id} className="relative aspect-video rounded-xl group">
-                                        <Image
-                                            src={img.secureUrl}
-                                            alt={`Image ${img.id}`}
-                                            className="w-full h-full object-cover rounded-xl"
-                                            width={300}
-                                            height={200}
-                                        />
-                                        <button
-                                            onClick={async () => {
-                                                console.log(img.id)
-                                                await fetch("/api/deleteImage", {
+                                    // <div key={img.id} className="relative aspect-video rounded-xl group">
+                                    //     <Image
+                                    //         src={img.secureUrl}
+                                    //         alt={`Image ${img.id}`}
+                                    //         className="w-full h-full object-cover rounded-xl"
+                                    //         width={300}
+                                    //         height={200}
+                                    //     />
+                                    //     <button
+                                    //         onClick={async () => {
+                                    //             await fetch("/api/deleteImage", {
+                                    //                 method: "DELETE",
+                                    //                 body: JSON.stringify({ publicId: img.publicId }),
+                                    //                 headers: { "Content-Type": "application/json" },
+                                    //             });
+                                    //             toast.success("Imagem excluída com sucesso!");
+                                    //         }}
+                                    //         className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition border-2 border-white hover:scale-110 duration-150"
+                                    //     >
+                                    //         <Trash className="text-white" />
+
+                                    //     </button>
+                                    // </div>
+                                    <CardImagem
+                                        key={img.id}
+                                        img={img}
+                                        onDelete={
+                                            async () => {
+                                                const res = await fetch("/api/deleteImage", {
                                                     method: "DELETE",
                                                     body: JSON.stringify({ publicId: img.publicId }),
                                                     headers: { "Content-Type": "application/json" },
                                                 });
-                                                toast.success("Imagem excluída com sucesso!");
-                                            }}
-                                            className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition border-2 border-white hover:scale-110 duration-150"
-                                        >
-                                            <Trash className="text-white" />
+                                                if (res.ok) {
+                                                    toast.success("Imagem excluída com sucesso!");
 
-                                        </button>
-                                    </div>
+                                                    setImageUrl((prev) => prev.filter((image) => image.publicId !== img.publicId));
+                                                } else {
+                                                    toast.error("Erro ao excluir imagem");
+                                                }
+                                            }
+                                        }
+                                    />
 
                                 ))
                             }
