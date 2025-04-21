@@ -3,6 +3,7 @@ import ImageUpload from "./components/ImageUpload";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import ButtonLogOut from "./components/ButtonLogOut";
+import { DialogExemplo } from "./components/Teste";
 
 
 const Account = async () => {
@@ -18,6 +19,7 @@ const Account = async () => {
             Bem vindo(a) {user?.name || 'User'} 
            <ButtonLogOut />
             <ImageUpload />
+            <DialogExemplo />
         </div>
     );
 }
