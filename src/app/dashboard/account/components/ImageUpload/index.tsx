@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Trash } from "lucide-react";
 import { CardImagem } from "../CardComImagem";
+import { getSession } from "next-auth/react";
 
 type ImageData = {
     id: string,
@@ -15,12 +15,23 @@ type ImageData = {
 
 
 export default function ImageUpload() {
+
     const [file, setFile] = useState<File | null>(null);
     const [imageUrl, setImageUrl] = useState<ImageData[]>([]); // mudando o useSte para um array de string
     const [loading, setLoading] = useState(false);
     const [preview, setPreview] = useState<string | null>(null)
     const [uploadError, setUploadError] = useState(false);
+    const [session, setSession] = useState<any>(null);
 
+    useEffect(() => {
+
+        const fetchSession = async () => {
+            const session = await getSession();
+            setSession(session);
+        }
+
+        fetchSession();
+    }, [])
 
     useEffect(() => {
         return () => {
@@ -158,7 +169,7 @@ export default function ImageUpload() {
             <div className="flex flex-col items-center justify-center mx-48 bg-[#171717] rounded-2xl">
                 <div className="flex items-start mt-4 w-11/12">
                     <p className="text-start text-[#96938d] hover:text-white">
-                        Suas Imagens:
+                        {session?.user?.name ? `Galeria de ${session.user.name}:` : "Sua Galeria:"}
                     </p>
                 </div>
                 {
