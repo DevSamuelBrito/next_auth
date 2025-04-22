@@ -12,19 +12,35 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
-
 export function CardImagem({ img, onDelete }: { img: any, onDelete: (id: string) => void }) {
     return (
         <div key={img.id} className="relative aspect-video rounded-xl group">
-            {img.secureUrl && (
-                <Image
-                    src={img.secureUrl}
-                    alt={`Image ${img.id}`}
-                    className="w-full h-full object-cover rounded-xl"
-                    width={300}
-                    height={200}
-                />
-            )}
+            {/* Dialog para PREVIEW */}
+            <Dialog>
+                <DialogHeader>
+                    <DialogTitle className="sr-only">Visualizar imagem</DialogTitle>
+                </DialogHeader>
+                <DialogTrigger asChild>
+                    <Image
+                        src={img.secureUrl}
+                        alt={`Image ${img.id}`}
+                        className="w-full h-full object-cover rounded-xl cursor-pointer hover:brightness-75 transition"
+                        width={300}
+                        height={200}
+                    />
+                </DialogTrigger>
+                <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="max-w-fit bg-transparent border-none shadow-none p-0  [&>button.absolute]:text-black [&>button.absolute]:text-3xl" >
+                    <Image
+                        src={img.secureUrl}
+                        alt={`Preview ${img.id}`}
+                        width={900}
+                        height={600}
+                        className="rounded-xl object-contain"
+                    />
+                </DialogContent>
+            </Dialog>
+
+            {/* Dialog para EXCLUSÃO */}
             <Dialog>
                 <DialogTrigger asChild>
                     <button
@@ -43,7 +59,6 @@ export function CardImagem({ img, onDelete }: { img: any, onDelete: (id: string)
                     </DialogHeader>
                     <DialogFooter>
                         <DialogClose asChild>
-
                             <Button
                                 variant="destructive"
                                 className="hover:cursor-pointer hover:bg-red-500/80"
@@ -53,13 +68,13 @@ export function CardImagem({ img, onDelete }: { img: any, onDelete: (id: string)
                             </Button>
                         </DialogClose>
                         <DialogClose asChild>
-                            <Button
-                                className="hover:cursor-pointer"
-                                variant="outline">Cancelar</Button>
+                            <Button className="hover:cursor-pointer" variant="outline">
+                                Cancelar
+                            </Button>
                         </DialogClose>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
         </div>
-    )
+    );
 }
