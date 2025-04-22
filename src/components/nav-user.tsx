@@ -6,6 +6,7 @@ import {
   ChevronsUpDown,
   CreditCard,
   LogOut,
+  User,
   Sparkles,
 } from "lucide-react"
 
@@ -94,6 +95,10 @@ export function NavUser({
               <DropdownMenuItem onClick={() => redirect("/dashboard/account")}>
                 <BadgeCheck />
                   Account
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => redirect("/dashboard/profile")}>
+                <User />
+                  Profile
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Bell />
