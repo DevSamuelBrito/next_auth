@@ -104,7 +104,7 @@ export default function ImageUpload() {
     return (
         <div>
             <form
-                className="space-y-4 flex flex-col items-center justify-center mx-48 bg-[#171717] rounded-2xl mb-4"
+                className="space-y-4 flex flex-col items-center justify-center mx-24 bg-[#171717] rounded-2xl mb-4"
                 onSubmit={handleUpload}
             >
                 <label
@@ -166,7 +166,7 @@ export default function ImageUpload() {
                 }
             </form>
 
-            <div className="flex flex-col items-center justify-center mx-48 bg-[#171717] rounded-2xl">
+            <div className="flex flex-col items-center justify-center mx-24 bg-[#171717] rounded-2xl">
                 <div className="flex items-start mt-4 w-11/12">
                     <p className="text-start text-[#96938d] hover:text-white">
                         {session?.user?.name ? `Galeria de ${session.user.name}:` : "Sua Galeria:"}
