@@ -1,11 +1,11 @@
 "use client"
 import { Button } from "@/components/ui/button";
-import { User } from "lucide-react";
 import { useState } from "react";
+import PhotoProfile from "./components/PhotoProfile";
+import EditNameSection from "./components/EditNameSection";
+import EditPasswordSection from "./components/EditPasswordSection";
 
 const Profile = () => {
-    const [editName, setEditName] = useState(false);
-    const [editPassword, setEditPassword] = useState(false);
     const [loading, setLoading] = useState(false);
 
     if (loading) {
@@ -15,61 +15,14 @@ const Profile = () => {
 
     return (
         <div className="space-y-4 flex flex-col items-center justify-center 2xl:mx-24 mx-16 bg-[#171717] rounded-2xl mb-4 p-4">
-            <div className="bg-black rounded-full w-24 h-24 flex items-center justify-center">
-                <User size={40} className="text-white" />
-            </div>
+            <PhotoProfile />
             <p>
                 <span className="font-bold text-[#96938d] hover:text-white cursor-pointer mt-4">
                     Samuel
                 </span>
             </p>
-
-
-            {
-                editName ? (
-                    <form className="flex flex-col items-center justify-center space-y-4 w-full">
-                        <input type="text" placeholder="Nome" className="w-1/2 bg-[#171717] border border-[#96938d] rounded-lg p-2 text-white" />
-                        <Button variant="outline" className="w-1/2" onClick={() => setEditName(false)}>
-                            Salvar Nome
-                        </Button>
-                        <Button variant="secondary" className="w-1/2 mb-7" onClick={() => setEditName(false)}>
-                            Cancelar
-                        </Button>
-                    </form>
-                ) : (
-                    <Button variant="secondary" className="w-1/2 mb-7" onClick={() => {
-                        setEditName(true);
-                        setEditPassword(false);
-                    }
-                    }>
-                        Editar Nome
-                    </Button>
-                )
-            }  
-            {
-                editPassword ? (
-                    <form className="flex flex-col items-center justify-center space-y-4 w-full">
-                        <input type="password" placeholder="Senha Atual" className="w-1/2 bg-[#171717] border border-[#96938d] rounded-lg p-2 text-white" />
-                        <input type="password" placeholder="Nova Senha" className="w-1/2 bg-[#171717] border border-[#96938d] rounded-lg p-2 text-white  outline-white" />
-                        <input type="password" placeholder="Confirmar Senha" className="w-1/2 bg-[#171717] border border-[#96938d] rounded-lg p-2 text-white  outline-white" />
-                        <Button variant="outline" className="w-1/2" onClick={() => setEditPassword(false)}>
-                            Salvar Senha
-                        </Button>
-                        <Button variant="secondary" className="w-1/2" onClick={() => setEditPassword(false)}>
-                            Cancelar
-                        </Button>
-                    </form>
-                ) : (
-                    <Button variant="secondary" className="w-1/2" onClick={() => {
-                        setEditPassword(true);
-                        setEditName(false);
-                    }}>
-                        Editar Senha
-                    </Button>
-                )
-            }
-
-
+            <EditNameSection />
+            <EditPasswordSection />
         </div >
     );
 }
