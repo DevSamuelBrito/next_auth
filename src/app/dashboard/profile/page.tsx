@@ -4,7 +4,7 @@ import { User } from "lucide-react";
 import { useState } from "react";
 
 const Profile = () => {
-
+    const [editName, setEditName] = useState(false);
     const [editPassword, setEditPassword] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -23,22 +23,47 @@ const Profile = () => {
                     Samuel
                 </span>
             </p>
-            <Button variant="outline" className="w-1/2" >
-                Editar Nome
-            </Button>
+
 
             {
-                editPassword ? (
+                editName ? (
                     <form className="flex flex-col items-center justify-center space-y-4 w-full">
-                        <input type="password" placeholder="Senha Atual" className="w-1/2 bg-[#171717] border border-[#96938d] rounded-lg p-2 text-white" />
-                        <input type="password" placeholder="Nova Senha" className="w-1/2 bg-[#171717] border border-[#96938d] rounded-lg p-2 text-white  outline-white" /> 
-                        <input type="password" placeholder="Confirmar Nova Senha" className="w-1/2 bg-[#171717] border border-[#96938d] rounded-lg p-2 text-white  outline-white" /> 
-                        <Button variant="outline" className="w-1/2" onClick={() => setEditPassword(false)}>
+                        <input type="text" placeholder="Nome" className="w-1/2 bg-[#171717] border border-[#96938d] rounded-lg p-2 text-white" />
+                        <Button variant="outline" className="w-1/2" onClick={() => setEditName(false)}>
+                            Salvar Nome
+                        </Button>
+                        <Button variant="secondary" className="w-1/2 mb-7" onClick={() => setEditName(false)}>
                             Cancelar
                         </Button>
                     </form>
                 ) : (
-                    <Button variant="outline" className="w-1/2" onClick={() => setEditPassword(true)}>
+                    <Button variant="secondary" className="w-1/2 mb-7" onClick={() => {
+                        setEditName(true);
+                        setEditPassword(false);
+                    }
+                    }>
+                        Editar Nome
+                    </Button>
+                )
+            }  
+            {
+                editPassword ? (
+                    <form className="flex flex-col items-center justify-center space-y-4 w-full">
+                        <input type="password" placeholder="Senha Atual" className="w-1/2 bg-[#171717] border border-[#96938d] rounded-lg p-2 text-white" />
+                        <input type="password" placeholder="Nova Senha" className="w-1/2 bg-[#171717] border border-[#96938d] rounded-lg p-2 text-white  outline-white" />
+                        <input type="password" placeholder="Confirmar Senha" className="w-1/2 bg-[#171717] border border-[#96938d] rounded-lg p-2 text-white  outline-white" />
+                        <Button variant="outline" className="w-1/2" onClick={() => setEditPassword(false)}>
+                            Salvar Senha
+                        </Button>
+                        <Button variant="secondary" className="w-1/2" onClick={() => setEditPassword(false)}>
+                            Cancelar
+                        </Button>
+                    </form>
+                ) : (
+                    <Button variant="secondary" className="w-1/2" onClick={() => {
+                        setEditPassword(true);
+                        setEditName(false);
+                    }}>
                         Editar Senha
                     </Button>
                 )
