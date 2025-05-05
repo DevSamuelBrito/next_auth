@@ -25,7 +25,6 @@ const EditPasswordSection = () => {
             })
         });
 
-        const data = await res.json();
 
         if (!res.ok) {
             toast.error("Erro ao alterar senha");
