@@ -11,20 +11,25 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 //autenticação
 import { signIn } from "next-auth/react";
-import { redirect } from "next/navigation";
 import React, { useState } from "react";
 import Link from "next/link"
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+import { toast } from "sonner"
 
 
-export function LoginForm({
+
+export  function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
 
+ 
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -35,10 +40,9 @@ export function LoginForm({
     })
 
     if (result?.error) {
-      console.log(result.error)
-      alert("Credenciais inválidas")
+      toast.error("Credenciais inválidas")
     } else {
-      alert("Logado com sucesso")
+      toast.success("Logado com sucesso")
       router.push("/dashboard");
     }
   }
