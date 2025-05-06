@@ -1,25 +1,25 @@
-"use client"
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
+
 import PhotoProfile from "./components/PhotoProfile";
 import EditNameSection from "./components/EditNameSection";
 import EditPasswordSection from "./components/EditPasswordSection";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import { ReloadButton } from "./components/ReloadPage";
 
-const Profile = () => {
-    const [loading, setLoading] = useState(false);
-
-    if (loading) {
-        console.log("Loading...");
+const Profile = async () => {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+        redirect("/");
     }
-
-
     return (
         <div className="space-y-4 flex flex-col items-center justify-center 2xl:mx-24 mx-16 bg-[#171717] rounded-2xl mb-4 p-4">
             <PhotoProfile />
             <p>
                 <span className="font-bold text-[#96938d] hover:text-white cursor-pointer mt-4">
-                    Samuel
+                    {session?.user?.name || "Usuario"}
                 </span>
+                <ReloadButton />
             </p>
             <EditNameSection />
             <EditPasswordSection />
