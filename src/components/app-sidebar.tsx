@@ -192,7 +192,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   }, []);
 
   if (loading) {
-    <div>Carregando...</div>
+    return <div>Carregando...</div>
   }
 
   return (
