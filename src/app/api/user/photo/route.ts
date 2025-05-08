@@ -29,6 +29,15 @@ export async function POST(request: Request) {
   //Transforma em base64 e monta o Data URI (obrigatório para upload via string)
   const base64 = `data:${file.type};base64,${buffer.toString("base64")}`;
 
+  //verifica se o usuário já tem uma imagem de perfil
+  const user = await prisma.user.findUnique({
+    where: { email: session.user?.email as string },
+  });
+
+  if (user?.profilePicturePublicId) {
+    cloudinary.uploader.destroy(user.profilePicturePublicId);
+  }
+
   //ai sim pode fazer o upload para a cloudinary
   const upload = await cloudinary.uploader.upload(base64, {
     folder: "profileImages",
@@ -38,7 +47,10 @@ export async function POST(request: Request) {
 
   await prisma.user.update({
     where: { email: session.user.email },
-    data: { profilePicture: imageUrl },
+    data: {
+      profilePicture: imageUrl,
+      profilePicturePublicId: upload.public_id,
+    },
   });
   return NextResponse.json({ imageUrl }, { status: 200 });
 }
