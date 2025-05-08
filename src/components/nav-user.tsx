@@ -33,6 +33,7 @@ import {
 import { signOut } from "next-auth/react"
 import avatar from "@/images/icon.png"
 import { redirect } from "next/navigation";
+import { useEffect, useState } from "react"
 
 export function NavUser({
   user,
@@ -44,6 +45,20 @@ export function NavUser({
 }) {
   const { isMobile } = useSidebar()
 
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchUserImage() {
+      try {
+        const res = await fetch("/api/user/profile-image");
+        const data = await res.json();
+        setProfileImage(data.profilePicture);
+      } catch (error) {
+        console.error("Error fetching user image:", error);
+      }
+    }
+    fetchUserImage();
+  }, [])
 
   return (
     <SidebarMenu>
@@ -55,7 +70,7 @@ export function NavUser({
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={avatar.src} alt={user.name} />
+                <AvatarImage src={profileImage ?? avatar.src} alt={user.name} />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
@@ -94,11 +109,11 @@ export function NavUser({
             <DropdownMenuGroup>
               <DropdownMenuItem onClick={() => redirect("/dashboard/account")}>
                 <BadgeCheck />
-                  Account
+                Account
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => redirect("/dashboard/profile")}>
                 <User />
-                  Profile
+                Profile
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Bell />
