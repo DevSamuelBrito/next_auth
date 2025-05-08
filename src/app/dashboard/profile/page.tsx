@@ -15,26 +15,29 @@ const Profile = async () => {
     }
 
     const user = await prisma.user.findUnique({
-        where: { email: session.user?.email as string},
-        select:{
+        where: { email: session.user?.email as string },
+        select: {
             name: true,
             profilePicture: true,
         }
 
     })
-    
+
     return (
         <div className="space-y-4 flex flex-col items-center justify-center 2xl:mx-24 mx-16 bg-[#171717] rounded-2xl mb-4 p-4">
-            <PhotoProfile image={user?.profilePicture}/>
-            <p>
-                <span className="font-bold text-[#96938d] hover:text-white cursor-pointer mt-4">
-                    {user?.name || "Usuario"}
+            <PhotoProfile image={user?.profilePicture} />
+
+            <div className="flex items-center gap-2 mt-4">
+                <span className="font-bold text-[#96938d] hover:text-white cursor-pointer">
+                    {user?.name || "Usuário"}
                 </span>
                 <ReloadButton />
-            </p>
+            </div>
+
             <EditNameSection />
             <EditPasswordSection />
-        </div >
+        </div>
+
     );
 }
 
