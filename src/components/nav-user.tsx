@@ -9,7 +9,8 @@ import {
   User,
   Sparkles,
   Upload,
-  UploadCloud
+  UploadCloud,
+  HomeIcon
 } from "lucide-react"
 
 import {
@@ -120,6 +121,10 @@ export function NavUser({
               <DropdownMenuItem>
                 <Bell />
                 Notifications
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => redirect("/dashboard")}>
+                <HomeIcon />
+                Dashboard
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
