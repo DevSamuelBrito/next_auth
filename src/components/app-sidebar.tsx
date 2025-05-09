@@ -173,7 +173,6 @@ async function fetchUser() {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [user, setUser] = useState<UserProps| null>(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
 
@@ -183,17 +182,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         setUser(userData);
       } catch (error) {
         console.error('Error fetching user data:', error);
-      } finally {
-        setLoading(false);
       }
     }
 
     loadUser();
   }, []);
-
-  if (loading) {
-    return <div>Carregando...</div>
-  }
 
   return (
     <Sidebar collapsible="icon" {...props}>
