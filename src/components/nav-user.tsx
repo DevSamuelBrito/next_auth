@@ -8,6 +8,8 @@ import {
   LogOut,
   User,
   Sparkles,
+  Upload,
+  UploadCloud
 } from "lucide-react"
 
 import {
@@ -31,7 +33,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { signOut } from "next-auth/react"
-import avatar from "@/images/icon.png"
+// import avatar from "@/images/icon.png"
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react"
 
@@ -70,7 +72,7 @@ export function NavUser({
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={profileImage ?? avatar.src} alt={user.name} />
+                <AvatarImage src={profileImage ?? "/avatar.svg"} alt={user.name} />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
@@ -89,7 +91,7 @@ export function NavUser({
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={avatar.src} alt={user.name} />
+                  <AvatarImage src={profileImage ?? "/avatar.svg"} alt={user.name} />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
@@ -108,8 +110,8 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem onClick={() => redirect("/dashboard/account")}>
-                <BadgeCheck />
-                Account
+                <UploadCloud />
+                Upload
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => redirect("/dashboard/profile")}>
                 <User />
