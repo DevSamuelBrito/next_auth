@@ -47,7 +47,7 @@ const PhotoProfile = ({ image }: PhotoProfiileProps) => {
                 className="hidden"
             />
             <div
-                className="w-36 h-36 rounded-full overflow-hidden bg-black flex items-center justify-center"
+                className="w-24 h-24 rounded-full overflow-hidden bg-black flex items-center justify-center"
                 onClick={() => inputRef.current?.click()}
             >
                 {preview ? (
@@ -59,7 +59,7 @@ const PhotoProfile = ({ image }: PhotoProfiileProps) => {
                         className="w-full h-full object-cover"
                     />
                 ) : (
-                    <User size={40} className="text-white" />
+                    <User size={30} className="text-white" />
                 )}
             </div>
 
