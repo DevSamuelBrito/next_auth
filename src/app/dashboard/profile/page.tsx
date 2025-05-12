@@ -7,6 +7,11 @@ import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { ReloadButton } from "./components/ReloadPage";
 import { prisma } from "@/lib/prisma";
+import { Button } from "@/components/ui/button";
+import SectionProfilePicture from "./components/SectionProfilePicture";
+import SectionUserName from "./components/SectionUserName";
+import SectionEmail from "./components/SectionEmail";
+import SectionEditPassword from "./components/SectionEditPassword";
 
 const Profile = async () => {
     const session = await getServerSession(authOptions);
@@ -19,25 +24,47 @@ const Profile = async () => {
         select: {
             name: true,
             profilePicture: true,
+            email: true,
         }
-
     })
 
-    return (
-        <div className="space-y-4 flex flex-col items-center justify-center 2xl:mx-24 mx-16 bg-[#171717] rounded-2xl mb-4 p-4">
-            <PhotoProfile image={user?.profilePicture} />
+    if (!user) {
+        redirect("/");
+    }
 
-            <div className="flex items-center gap-2 mt-4">
-                <span className="font-bold text-[#96938d] hover:text-white cursor-pointer">
-                    {user?.name || "Usuário"}
-                </span>
+    return (
+        <div>
+            <div className="flex flex-col items-center justify-center 2xl:mx-24 mx-16">
+                {/* Fora da Div principal */}
+                <p className="text-white font-semibold text-lg mb-2 self-start">Perfil</p>
+
+                <div className="space-y-4 flex flex-col items-center justify-center bg-[#171717] rounded-2xl mb-4 p-4 w-full">
+
+                    {/* Div da Foto de perfil*/}
+                    <SectionProfilePicture user={user} />
+                    <div className="w-full h-px bg-white/20 my-4" />
+
+                    {/*Div do nome do usuário */}
+                    <SectionUserName user={user} />
+                    <div className="w-full h-px bg-white/20 my-4" />
+
+                    {/*Div do email */}
+                    <SectionEmail user={user} />
+                </div>
+            </div>
+            <div className="flex flex-col items-center justify-center 2xl:mx-24 mx-16">
+                {/* Fora da Div principal */}
+                <p className="text-white font-semibold text-lg mb-2 self-start">Segurança</p>
+                <div className="space-y-4 flex flex-col items-center justify-center bg-[#171717] rounded-2xl mb-4 p-4 w-full">
+                    {/*Div de senha  do usuário */}
+                    <SectionEditPassword />
+                </div>
+            </div>
+            <div className="2xl:mx-24 mx-16">
+                <button>Excluir Conta</button>
                 <ReloadButton />
             </div>
-
-            <EditNameSection />
-            <EditPasswordSection />
         </div>
-
     );
 }
 
