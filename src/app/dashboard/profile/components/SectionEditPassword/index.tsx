@@ -1,7 +1,10 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { redirect } from "next/navigation";
 
 const SectionEditPassword = () => {
+
+    
     return (
         <div className="flex items center justify-between w-full p-6">
             <div className="flex justify-center items-center gap-x-36">
@@ -11,7 +14,7 @@ const SectionEditPassword = () => {
                 </span>
             </div>
             <div className="flex items-center justify-center">
-                <Button>
+                <Button onClick={()=>redirect("/changepassword")}>
                     Alterar
                 </Button>
             </div>
