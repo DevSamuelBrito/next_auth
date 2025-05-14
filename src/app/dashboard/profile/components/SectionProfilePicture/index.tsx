@@ -15,7 +15,7 @@ const SectionProfilePicture = ({ user }: SectionProfilePictureProps) => {
                     <PhotoProfile image={user?.profilePicture} />
                 </div>
                 <div className="flex items-center justify-center">
-                    <Button>
+                    <Button className="cursor-pointer">
                         Alterar
                     </Button>
                 </div>

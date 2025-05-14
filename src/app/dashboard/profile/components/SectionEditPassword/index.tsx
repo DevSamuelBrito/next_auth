@@ -14,7 +14,7 @@ const SectionEditPassword = () => {
                 </span>
             </div>
             <div className="flex items-center justify-center">
-                <Button onClick={()=>redirect("/changepassword")}>
+                <Button onClick={()=>redirect("/changepassword")} className="cursor-pointer">
                     Alterar
                 </Button>
             </div>

@@ -18,7 +18,7 @@ const SectionUserName = ({ user }: SectionProfileNameProps) => {
                 </span>
             </div>
             <div className="flex items-center justify-center">
-                <Button onClick={()=> redirect("/changename")}>
+                <Button onClick={()=> redirect("/changename")} className="cursor-pointer">
                     Alterar
                 </Button>
             </div>
