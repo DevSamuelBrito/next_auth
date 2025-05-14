@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { SimpleUser } from "@/types/user";
+import { redirect } from "next/navigation";
 
 interface SectionProfileNameProps {
     user: SimpleUser;
@@ -17,7 +18,7 @@ const SectionUserName = ({ user }: SectionProfileNameProps) => {
                 </span>
             </div>
             <div className="flex items-center justify-center">
-                <Button>
+                <Button onClick={()=> redirect("/changename")}>
                     Alterar
                 </Button>
             </div>
