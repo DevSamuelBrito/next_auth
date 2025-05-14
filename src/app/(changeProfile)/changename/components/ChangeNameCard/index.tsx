@@ -8,38 +8,35 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { redirect } from "next/navigation";
 import React, { useState } from "react";
 import { ArrowLeft } from "lucide-react"
+import { toast } from "sonner";
 
 export function ChangeNameCard({
     className,
     ...props
 }: React.ComponentProps<"div">) {
     const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+
 
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault()
-        const response = await fetch("/api/signup", {
+        e.preventDefault();
+
+        const res = await fetch("/api/change-name", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ name, email, password })
+            body: JSON.stringify({
+                name: name
+            }),
         })
 
-        const data = await response.json()
-
-        if (!response.ok) {
-            alert(data.error || "Erro ao criar usuário")
+        if (!res.ok) {
+            toast.error("Erro ao alterar nome");
             return;
         }
-
-        alert("Usuário criado com sucesso!");
-        redirect("/");
+        toast.success("Nome alterado com sucesso");
+        setName("");
+        redirect("/dashboard/profile");
     }
 
     return (
