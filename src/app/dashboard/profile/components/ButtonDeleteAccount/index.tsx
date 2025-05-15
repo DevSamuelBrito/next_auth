@@ -1,14 +1,25 @@
+"use client";
 import { Button } from "@/components/ui/button";
-import { DialogHeader, DialogFooter } from "@/components/ui/dialog";
-import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogClose } from "@radix-ui/react-dialog";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { signOut } from "next-auth/react";
+import { toast } from "sonner";
 
-const deleteAccount = async () => {
-    const res = await fetch("",{
-        
-    })
-}
+
+
 
 const ButtonDeleteAccount = () => {
+    const deleteAccount = async () => {
+        const res = await fetch(`/api/user/delete`, {
+            method: "DELETE"
+        })
+        if (!res.ok) {
+            toast.error("Erro ao deletar conta");
+        } else {
+            toast.success("Conta deletada com sucesso você será redirecionado...");
+            setTimeout(() => signOut({ callbackUrl: "/" }), 2000);
+        }
+    }
+
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -17,14 +28,14 @@ const ButtonDeleteAccount = () => {
 
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Tem certeza que deseja excluir?</DialogTitle>
+                    <DialogTitle>Tem certeza que deseja excluir sua conta?</DialogTitle>
                     <DialogDescription>
-                        Essa imagem será excluída permanentemente e não poderá ser recuperada.
+                        Sua conta e todos os dados associados a ela serão excluídos permanentemente. Esta ação não pode ser desfeita.
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
                     <DialogClose asChild>
-                        <Button variant="destructive" className="cursor-pointer">
+                        <Button variant="destructive" onClick={deleteAccount} className="cursor-pointer">
                             Confirmar
                         </Button>
                     </DialogClose>
