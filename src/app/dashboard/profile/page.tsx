@@ -12,6 +12,7 @@ import SectionProfilePicture from "./components/SectionProfilePicture";
 import SectionUserName from "./components/SectionUserName";
 import SectionEmail from "./components/SectionEmail";
 import SectionEditPassword from "./components/SectionEditPassword";
+import ButtonDeleteAccount from "./components/ButtonDeleteAccount";
 
 const Profile = async () => {
     const session = await getServerSession(authOptions);
@@ -61,8 +62,7 @@ const Profile = async () => {
                 </div>
             </div>
             <div className="2xl:mx-24 mx-16">
-                <button>Excluir Conta</button>
-                <ReloadButton />
+                <ButtonDeleteAccount />
             </div>
         </div>
     );
