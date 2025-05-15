@@ -1,13 +1,8 @@
 
-import PhotoProfile from "./components/PhotoProfile";
-import EditNameSection from "./components/EditNameSection";
-import EditPasswordSection from "./components/EditPasswordSection";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { ReloadButton } from "./components/ReloadPage";
 import { prisma } from "@/lib/prisma";
-import { Button } from "@/components/ui/button";
 import SectionProfilePicture from "./components/SectionProfilePicture";
 import SectionUserName from "./components/SectionUserName";
 import SectionEmail from "./components/SectionEmail";
