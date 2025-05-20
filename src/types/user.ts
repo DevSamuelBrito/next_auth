@@ -10,5 +10,6 @@ export interface User {
 export interface SimpleUser {
   name: string;
   email: string;
+  username:string;
   profilePicture: string | null;
 }
