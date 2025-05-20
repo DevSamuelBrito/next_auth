@@ -18,11 +18,12 @@ export async function GET() {
       id: true,
       name: true,
       email: true,
+      username: true,
       profilePicture: true,
     },
   });
 
-  if(!user ){
+  if (!user) {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
 
