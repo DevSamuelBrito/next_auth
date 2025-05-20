@@ -23,15 +23,16 @@ export function ChangeUsernameCard({
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const res = await fetch("/api/change-name", {
+        const res = await fetch("/api/change-username", {
             method: "POST",
             body: JSON.stringify({
                 username: username
             }),
         })
+        const data = await res.json();
 
         if (!res.ok) {
-            toast.error("Erro ao alterar seu Username");
+            toast.error(data.error);
             return;
         }
         toast.success("UserName alterado com sucesso");
