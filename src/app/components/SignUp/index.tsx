@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label"
 import { redirect } from "next/navigation";
 import React, { useState } from "react";
 import Link from "next/link"
+import { toast } from "sonner"
 
 export function SignUpForm({
   className,
@@ -20,6 +21,7 @@ export function SignUpForm({
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -28,13 +30,13 @@ export function SignUpForm({
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ name, email, password })
+      body: JSON.stringify({ name, email, password, username })
     })
 
     const data = await response.json()
 
     if (!response.ok) {
-      alert(data.error || "Erro ao criar usuário")
+      toast.error(data.error || "Erro ao criar usuário")
       return;
     }
 
@@ -60,11 +62,24 @@ export function SignUpForm({
                   id="name"
                   type="text"
                   value={name}
-                  placeholder="Username"
+                  placeholder="Nome"
                   required
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
+              <div className="grid gap-3">
+                <Label htmlFor="email">Username</Label>
+                <Input
+                  id="username"
+                  type="text"
+                  value={username}
+                  placeholder="Username"
+                  required
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+                <p className="text-sm italic text-center">O Username tem que ser unico.</p>
+              </div>
+              
               <div className="grid gap-3">
                 <Label htmlFor="email">Email</Label>
                 <Input

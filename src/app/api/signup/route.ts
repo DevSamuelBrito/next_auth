@@ -6,10 +6,10 @@ import { prisma } from "@/lib/prisma";
 export async function POST(request: Request) {
   try {
     //aqui eu estou pegando o body da requisição
-    const { name, email, password } = await request.json();
+    const { name, email, password, username } = await request.json();
 
     //verificando se o email, nome e senha estão preenchidos
-    if (!email || !name || !password) {
+    if (!email || !name || !password || !username) {
       return NextResponse.json(
         { error: "Preencha todos os campos" },
         { status: 400 }
@@ -22,8 +22,21 @@ export async function POST(request: Request) {
       },
     });
 
+    //verificando se o nome ja existe no banco de dados
+    const existingUsername = await prisma.user.findUnique({
+      where: {
+        username: username,
+      },
+    });
+
     if (existingUser) {
       return NextResponse.json({ error: "Usuário já existe" }, { status: 400 });
+    }
+    if (existingUsername) {
+      return NextResponse.json(
+        { error: "Nome de usuário já existe" },
+        { status: 400 }
+      );
     }
 
     const hashedPassword = await bcript.hash(password, 10);
@@ -33,6 +46,7 @@ export async function POST(request: Request) {
         name,
         email,
         password: hashedPassword,
+        username,
       },
     });
 
