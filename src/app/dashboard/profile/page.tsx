@@ -8,6 +8,8 @@ import SectionUserName from "./components/SectionUserName";
 import SectionEmail from "./components/SectionEmail";
 import SectionEditPassword from "./components/SectionEditPassword";
 import ButtonDeleteAccount from "./components/ButtonDeleteAccount";
+import SectionName from "./components/SectionUserName";
+import SectionUsername from "./components/EditUsername";
 
 const Profile = async () => {
     const session = await getServerSession(authOptions);
@@ -21,6 +23,7 @@ const Profile = async () => {
             name: true,
             profilePicture: true,
             email: true,
+            username: true,
         }
     })
 
@@ -41,10 +44,12 @@ const Profile = async () => {
                     <div className="w-full h-px bg-white/20 my-4" />
 
                     {/*Div do nome do usuário */}
-                    <SectionUserName user={user} />
+                    <SectionName user={user} />
                     <div className="w-full h-px bg-white/20 my-4" />
+                    <SectionUsername user={user} />
 
                     {/*Div do email */}
+                    <div className="w-full h-px bg-white/20 my-4" />
                     <SectionEmail user={user} />
                 </div>
             </div>
