@@ -8,7 +8,7 @@ interface SectionProfileNameProps {
     user: SimpleUser;
 }
 
-const SectionUserName = ({ user }: SectionProfileNameProps) => {
+const SectionName = ({ user }: SectionProfileNameProps) => {
     return (
         <div className="flex items center justify-between w-full p-6">
             <div className="flex justify-center items-center gap-x-36">
@@ -26,4 +26,4 @@ const SectionUserName = ({ user }: SectionProfileNameProps) => {
     );
 }
 
-export default SectionUserName;
+export default SectionName;
