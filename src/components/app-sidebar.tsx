@@ -159,7 +159,8 @@ const data = {
 
 interface UserProps {
   name: string,
-  email: string
+  email: string,
+  username:string,
 }
 
 async function fetchUser() {
