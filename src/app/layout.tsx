@@ -4,8 +4,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
-  title: "Next Auth",
-  description: "Site para testar NextAuth",
+  title: "Portfol.io ",
+  description: "Site para hospedagem de portfólios",
 };
 
 export default function RootLayout({
