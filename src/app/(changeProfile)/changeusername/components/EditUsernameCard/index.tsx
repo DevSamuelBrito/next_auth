@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { redirect } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react"
 import { toast } from "sonner";
 
@@ -18,6 +18,7 @@ export function ChangeUsernameCard({
     ...props
 }: React.ComponentProps<"div">) {
     const [username, setuserName] = useState("");
+    const [currentlyUsername, setCurrentUsername] = useState("");
 
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -40,6 +41,20 @@ export function ChangeUsernameCard({
         redirect("/dashboard/profile");
     }
 
+    const fetchCurrentlyUsername = async () => {
+        const res = await fetch("/api/user")
+        const data = await res.json();
+        if (!res.ok) {
+            setCurrentUsername("Erro ao carregar o username");
+            return;
+        }
+        setCurrentUsername(data.username);
+    }   
+
+    useEffect(()=>{
+        fetchCurrentlyUsername();
+    },[])
+
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
             <Card>
@@ -48,6 +63,9 @@ export function ChangeUsernameCard({
                     <CardTitle>Alterar Username</CardTitle>
                     <CardDescription>
                         Preencha os campos abaixo para alterar seu Username.
+                    </CardDescription>
+                    <CardDescription>
+                        Seu Username atual é: <strong>{currentlyUsername}</strong>
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
