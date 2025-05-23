@@ -3,9 +3,12 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { CardImagem } from "../CardComImagem";
 import { getSession } from "next-auth/react";
+import { Input } from "@/components/ui/input"
+
 
 type ImageData = {
     id: string,
@@ -19,19 +22,30 @@ export default function ImageUpload() {
     const [file, setFile] = useState<File | null>(null);
     const [imageUrl, setImageUrl] = useState<ImageData[]>([]); // mudando o useSte para um array de string
     const [loading, setLoading] = useState(false);
-    const [preview, setPreview] = useState<string | null>(null)
+    const [preview, setPreview] = useState<string | null>(null);
+    const [descriptionImage, setDescriptionImage] = useState<string>("");
     const [uploadError, setUploadError] = useState(false);
     const [session, setSession] = useState<any>(null);
+    const [name, setName] = useState<string>("");
 
     useEffect(() => {
-
         const fetchSession = async () => {
             const session = await getSession();
             setSession(session);
-        }
+        };
+
+        const fetchImages = async () => {
+            const res = await fetch("/api/getImagesUser", {
+                method: "GET",
+                cache: "no-store",
+            });
+            const data = await res.json();
+            setImageUrl(data.images);
+        };
 
         fetchSession();
-    }, [])
+        fetchImages();
+    }, []);
 
     useEffect(() => {
         return () => {
@@ -40,22 +54,6 @@ export default function ImageUpload() {
             }
         }
     }, [preview]);
-
-
-    const fetchImages = async () => {
-        const res = await fetch("/api/getImagesUser",
-            {
-                method: "GET",
-                cache: "no-store",
-            }
-        );
-        const data = await res.json();
-        setImageUrl(data.images);
-    }
-
-    useEffect(() => {
-        fetchImages();
-    }, [])
 
     const handleUpload = async (e: React.FormEvent<HTMLElement>) => {
         e.preventDefault();
@@ -134,25 +132,55 @@ export default function ImageUpload() {
                 />
 
                 {preview && (
-                    <div className="mt-4 flex flex-col items-center">
-                        <p className="text-base text-gray-400 mb-2">Preview:</p>
-                        <Image
-                            src={preview}
-                            alt="Preview da imagem selecionada"
-                            width={300}
-                            height={200}
-                            className="rounded-xl object-cover"
-                        />
-                        <button
-                            type="button"
-                            onClick={() => {
-                                setFile(null);
-                                setPreview(null);
-                            }}
-                            className="mt-2 text-red-500 hover:underline text-sm"
-                        >
-                            Remover Imagem
-                        </button>
+
+                    <div className="flex justify-between w-10/12 lg:w-8/12 p-5 max-h-96  ">
+                        <div className="mt-4 flex flex-col items-center w-1/2  ">
+                            <p className="text-base text-gray-400 mb-2">Preview:</p>
+                            <Image
+                                src={preview}
+                                alt="Preview da imagem selecionada"
+                                width={300}
+                                height={200}
+                                className="rounded-xl object-cover max-h-32 max-w-32 lg:max-w-64 lg:max-h-64"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setFile(null);
+                                    setPreview(null);
+                                }}
+                                className="mt-2 text-red-500 hover:underline text-sm"
+                            >
+                                Remover Imagem
+                            </button>
+
+                        </div>
+                        <div className="mt-4 flex flex-col w-1/2 gap-3">
+                            <Input
+                                id="name"
+                                type="text"
+                                value={name}
+                                placeholder="Nome da Imagem"
+                                required
+                                onChange={(e) => { setName(e.target.value) }}
+                            />
+                            <Textarea
+                                id="description"
+                                value={descriptionImage}
+                                placeholder="Descrição da Imagem"
+                                className="h-24 text-start align-top py-2" 
+                                required
+                                onChange={(e) => { setDescriptionImage(e.target.value) }}
+                            />
+                            <Input
+                                id="name"
+                                type="text"
+                                value={name}
+                                placeholder="Tags da Imagem"
+                                required
+                                onChange={(e) => { setName(e.target.value) }}
+                            />
+                        </div>
                     </div>
                 )}
 
@@ -177,29 +205,6 @@ export default function ImageUpload() {
                         <div className="mt-4 grid grid-cols-3 gap-4 mb-4">
                             {
                                 imageUrl.map((img) => (
-                                    // <div key={img.id} className="relative aspect-video rounded-xl group">
-                                    //     <Image
-                                    //         src={img.secureUrl}
-                                    //         alt={`Image ${img.id}`}
-                                    //         className="w-full h-full object-cover rounded-xl"
-                                    //         width={300}
-                                    //         height={200}
-                                    //     />
-                                    //     <button
-                                    //         onClick={async () => {
-                                    //             await fetch("/api/deleteImage", {
-                                    //                 method: "DELETE",
-                                    //                 body: JSON.stringify({ publicId: img.publicId }),
-                                    //                 headers: { "Content-Type": "application/json" },
-                                    //             });
-                                    //             toast.success("Imagem excluída com sucesso!");
-                                    //         }}
-                                    //         className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition border-2 border-white hover:scale-110 duration-150"
-                                    //     >
-                                    //         <Trash className="text-white" />
-
-                                    //     </button>
-                                    // </div>
                                     <CardImagem
                                         key={img.id}
                                         img={img}
