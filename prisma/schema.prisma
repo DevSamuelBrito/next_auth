@@ -32,4 +32,24 @@ model UserImage {
   publicId String
   userId String
   user User @relation(fields: [userId],references: [id])
+  name String
+  description String
+  tags UserImageTags[]
 }
+
+model Tag {
+  id String @id @default(cuid())
+  name String
+  images UserImageTags[]
+}
+
+model UserImageTags {
+  imageId String
+  tagId   String
+
+  image UserImage @relation(fields: [imageId], references: [id])
+  tag   Tag       @relation(fields: [tagId], references: [id])
+
+  @@id([imageId, tagId])  // Chave composta para não repetir a mesma tag na mesma imagem
+}
+
