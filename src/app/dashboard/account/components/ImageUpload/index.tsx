@@ -26,7 +26,8 @@ export default function ImageUpload() {
     const [descriptionImage, setDescriptionImage] = useState<string>("");
     const [uploadError, setUploadError] = useState(false);
     const [session, setSession] = useState<any>(null);
-    const [name, setName] = useState<string>("");
+    const [nameImage, setNameImage] = useState<string>("");
+    const [tagsImage, setTagsImage] = useState<string[]>(["Natureza", "Cidade"]);
 
     useEffect(() => {
         const fetchSession = async () => {
@@ -67,6 +68,9 @@ export default function ImageUpload() {
 
         const formData = new FormData();
         formData.append("file", file)
+        formData.append("name", nameImage)
+        formData.append("description", descriptionImage)
+        formData.append("tags", JSON.stringify(tagsImage))
 
         const res = await fetch("/api/upload", { //sempre colocar / antes do nome da rota para nao dar problema
             method: "POST",
@@ -159,27 +163,30 @@ export default function ImageUpload() {
                             <Input
                                 id="name"
                                 type="text"
-                                value={name}
+                                value={nameImage}
                                 placeholder="Nome da Imagem"
                                 required
-                                onChange={(e) => { setName(e.target.value) }}
+                                disabled={loading}
+                                onChange={(e) => { setNameImage(e.target.value) }}
                             />
                             <Textarea
                                 id="description"
                                 value={descriptionImage}
                                 placeholder="Descrição da Imagem"
-                                className="h-24 text-start align-top py-2" 
+                                className="h-24 text-start align-top py-2"
+                                disabled={loading}
                                 required
                                 onChange={(e) => { setDescriptionImage(e.target.value) }}
                             />
-                            <Input
-                                id="name"
+                            {/* <Input
+                                id="tag"
                                 type="text"
-                                value={name}
+                                value={tagsImage}
                                 placeholder="Tags da Imagem"
                                 required
-                                onChange={(e) => { setName(e.target.value) }}
-                            />
+                                disabled={loading}
+                                onChange={(e) => { setTagsImage(e.target.value) }}
+                            /> */}
                         </div>
                     </div>
                 )}

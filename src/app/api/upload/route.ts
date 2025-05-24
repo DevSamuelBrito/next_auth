@@ -20,6 +20,10 @@ export async function POST(req: Request) {
   try {
     const formData = await req.formData();
     const file = formData.get("file") as Blob | null;
+    const name = formData.get("name") as string;
+    const description = formData.get("description") as string;
+    const tagsString = formData.get("tags") as string;
+    const tags = JSON.parse(tagsString) as string[];
 
     if (!file) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
@@ -44,25 +48,41 @@ export async function POST(req: Request) {
       );
     }
 
-    await prisma.userImage.create({
-      data:{
+    const createdImage = await prisma.userImage.create({
+      data: {
         secureUrl: uploadReponse.secure_url,
         publicId: uploadReponse.public_id,
-        user:{
-          connect:{
+        name,
+        description,
+        user: {
+          connect: {
             email: session.user?.email as string,
-          }
-        }
-      }
+          },
+        },
+      },
     });
 
-    return NextResponse.json(
-      {
-        id: uploadReponse.public_id,
-        secureUrl: uploadReponse.secure_url,
-        publicId: uploadReponse.public_id,
-      }
-    );
+    // Agora, cria ou conecta cada tag
+    for (const tagName of tags) {
+      const tag = await prisma.tag.upsert({
+        where: { name: tagName },
+        update: {},
+        create: { name: tagName },
+      });
+
+      await prisma.userImageTags.create({
+        data: {
+          imageId: createdImage.id,
+          tagId: tag.id,
+        },
+      });
+    }
+
+    return NextResponse.json({
+      id: uploadReponse.public_id,
+      secureUrl: uploadReponse.secure_url,
+      publicId: uploadReponse.public_id,
+    });
   } catch (error) {
     return NextResponse.json(
       { error: "Error uploading image" },
