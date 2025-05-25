@@ -14,6 +14,8 @@ type ImageData = {
     id: string,
     secureUrl: string,
     publicId: string,
+    name: string,
+    description: string,
 }
 
 
@@ -42,6 +44,7 @@ export default function ImageUpload() {
             });
             const data = await res.json();
             setImageUrl(data.images);
+            console.log("Imagens do usuário:", data.images);
         };
 
         fetchSession();
@@ -79,7 +82,6 @@ export default function ImageUpload() {
 
         const text = await res.text(); // Obtém a resposta como um text
         setUploadError(false);
-        console.log("Resposta do servidor:", text);
 
         try {
             const data = JSON.parse(text); // aqui eu tento  converter para JSON
@@ -90,6 +92,8 @@ export default function ImageUpload() {
                         id: data.id,
                         secureUrl: data.secureUrl,
                         publicId: data.publicId,
+                        name: data.name,
+                        description: data.description,
                     },
                 ]);// aqui ele vai pegar o array anterior e vai adicionar a nova imagem.
                 toast.success("Imagem enviada com sucesso!");
@@ -100,6 +104,8 @@ export default function ImageUpload() {
         } finally {
             setLoading(false);
             setPreview(null);
+            setNameImage("");
+            setDescriptionImage("");
         }
     }
 
@@ -212,26 +218,35 @@ export default function ImageUpload() {
                         <div className="mt-4 grid grid-cols-3 gap-4 mb-4">
                             {
                                 imageUrl.map((img) => (
-                                    <CardImagem
-                                        key={img.id}
-                                        img={img}
-                                        onDelete={
-                                            async () => {
-                                                const res = await fetch("/api/deleteImage", {
-                                                    method: "DELETE",
-                                                    body: JSON.stringify({ publicId: img.publicId }),
-                                                    headers: { "Content-Type": "application/json" },
-                                                });
-                                                if (res.ok) {
-                                                    toast.success("Imagem excluída com sucesso!");
+                                    <div className="bg-[#292828] rounded-2xl flex flex-col items-center justify-center" key={img.id}>
+                                        <CardImagem
+                                            key={img.id}
+                                            img={img}
+                                            onDelete={
+                                                async () => {
+                                                    const res = await fetch("/api/deleteImage", {
+                                                        method: "DELETE",
+                                                        body: JSON.stringify({ publicId: img.publicId }),
+                                                        headers: { "Content-Type": "application/json" },
+                                                    });
+                                                    if (res.ok) {
+                                                        toast.success("Imagem excluída com sucesso!");
 
-                                                    setImageUrl((prev) => prev.filter((image) => image.publicId !== img.publicId));
-                                                } else {
-                                                    toast.error("Erro ao excluir imagem");
+                                                        setImageUrl((prev) => prev.filter((image) => image.publicId !== img.publicId));
+                                                    } else {
+                                                        toast.error("Erro ao excluir imagem");
+                                                    }
                                                 }
                                             }
-                                        }
-                                    />
+                                        />
+                                        <div className="flex flex-col items-center w-[200px] justify-center  overflow-hidden">
+                                            <p className="font-bold  overflow-hidden whitespace-nowrap text-ellipsis w-full text-center">{img.name}</p>
+                                            <p className="italic overflow-hidden whitespace-nowrap text-ellipsis w-full text-center">
+                                                {img.description}
+                                            </p>
+                                        </div>
+
+                                    </div>
 
                                 ))
                             }
