@@ -82,6 +82,8 @@ export async function POST(req: Request) {
       id: uploadReponse.public_id,
       secureUrl: uploadReponse.secure_url,
       publicId: uploadReponse.public_id,
+      name: createdImage.name,
+      description: createdImage.description
     });
   } catch (error) {
     return NextResponse.json(
