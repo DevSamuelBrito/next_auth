@@ -37,6 +37,10 @@ export async function DELETE(req: Request) {
     }
     await cloudinary.uploader.destroy(publicId);
 
+    await prisma.userImageTags.deleteMany({
+      where: { imageId: image.id}
+    })
+
     await prisma.userImage.delete({
       where: { id: image.id },
     });
@@ -46,6 +50,7 @@ export async function DELETE(req: Request) {
       { status: 200 }
     );
   } catch (error) {
+    console.error("Error deleting image:", error);
     return NextResponse.json(
       { error: "Error deleting Image" },
       { status: 500 }
