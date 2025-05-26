@@ -8,15 +8,7 @@ import { toast } from "sonner";
 import { CardImagem } from "../CardComImagem";
 import { getSession } from "next-auth/react";
 import { Input } from "@/components/ui/input"
-
-
-type ImageData = {
-    id: string,
-    secureUrl: string,
-    publicId: string,
-    name: string,
-    description: string,
-}
+import { ImageData } from "@/types/imageData";
 
 
 export default function ImageUpload() {
