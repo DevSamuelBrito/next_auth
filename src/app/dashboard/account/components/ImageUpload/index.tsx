@@ -5,16 +5,16 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { CardImagem } from "../CardComImagem";
 import { getSession } from "next-auth/react";
 import { Input } from "@/components/ui/input"
 import { ImageData } from "@/types/imageData";
+import CardContainer from "./components/CardContainer";
 
 
 export default function ImageUpload() {
 
     const [file, setFile] = useState<File | null>(null);
-    const [imageUrl, setImageUrl] = useState<ImageData[]>([]); // mudando o useSte para um array de string
+    const [imageUrl, setImageUrl] = useState<ImageData[]>([]);
     const [loading, setLoading] = useState(false);
     const [preview, setPreview] = useState<string | null>(null);
     const [descriptionImage, setDescriptionImage] = useState<string>("");
@@ -210,36 +210,7 @@ export default function ImageUpload() {
                         <div className="mt-4 grid grid-cols-3 gap-4 mb-4">
                             {
                                 imageUrl.map((img) => (
-                                    <div className="bg-[#292828] rounded-2xl flex flex-col items-center justify-center" key={img.id}>
-                                        <CardImagem
-                                            key={img.id}
-                                            img={img}
-                                            onDelete={
-                                                async () => {
-                                                    const res = await fetch("/api/deleteImage", {
-                                                        method: "DELETE",
-                                                        body: JSON.stringify({ publicId: img.publicId }),
-                                                        headers: { "Content-Type": "application/json" },
-                                                    });
-                                                    if (res.ok) {
-                                                        toast.success("Imagem excluída com sucesso!");
-
-                                                        setImageUrl((prev) => prev.filter((image) => image.publicId !== img.publicId));
-                                                    } else {
-                                                        toast.error("Erro ao excluir imagem");
-                                                    }
-                                                }
-                                            }
-                                        />
-                                        <div className="flex flex-col items-center w-[200px] justify-center  overflow-hidden">
-                                            <p className="font-bold  overflow-hidden whitespace-nowrap text-ellipsis w-full text-center">{img.name}</p>
-                                            <p className="italic overflow-hidden whitespace-nowrap text-ellipsis w-full text-center">
-                                                {img.description}
-                                            </p>
-                                        </div>
-
-                                    </div>
-
+                                    <CardContainer img={img} setImageUrl={setImageUrl} key={img.id}  />
                                 ))
                             }
                         </div>
@@ -248,7 +219,6 @@ export default function ImageUpload() {
                         <p className="italic mt-4 mb-8">Você não fez upload de nenhuma imagem ainda...</p>
                     )
                 }
-
             </div>
         </div>
     )
