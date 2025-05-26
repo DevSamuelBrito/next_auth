@@ -9,6 +9,8 @@ import { getSession } from "next-auth/react";
 import { Input } from "@/components/ui/input"
 import { ImageData } from "@/types/imageData";
 import CardContainer from "./components/CardContainer";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 
 export default function ImageUpload() {
@@ -22,6 +24,7 @@ export default function ImageUpload() {
     const [session, setSession] = useState<any>(null);
     const [nameImage, setNameImage] = useState<string>("");
     const [tagsImage, setTagsImage] = useState<string[]>(["Natureza", "Cidade"]);
+    const [privateImage, setPrivateImage] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchSession = async () => {
@@ -101,6 +104,8 @@ export default function ImageUpload() {
         }
     }
 
+    console.log(session)
+
     return (
         <div>
             <form
@@ -135,7 +140,7 @@ export default function ImageUpload() {
 
                 {preview && (
 
-                    <div className="flex justify-between w-10/12 lg:w-8/12 p-5 max-h-96  ">
+                    <div className="flex flex-col p-5 items-center justify-center w-full ">
                         <div className="mt-4 flex flex-col items-center w-1/2  ">
                             <p className="text-base text-gray-400 mb-2">Preview:</p>
                             <Image
@@ -143,7 +148,7 @@ export default function ImageUpload() {
                                 alt="Preview da imagem selecionada"
                                 width={300}
                                 height={200}
-                                className="rounded-xl object-cover max-h-32 max-w-32 lg:max-w-64 lg:max-h-64"
+                                className="rounded-xl object-cover max-w-32 max-h-32 lg:max-h-64 lg:max-w-64"
                             />
                             <button
                                 type="button"
@@ -157,7 +162,7 @@ export default function ImageUpload() {
                             </button>
 
                         </div>
-                        <div className="mt-4 flex flex-col w-1/2 gap-3">
+                        <div className="mt-4 flex flex-col w-1/2 gap-3 items-center">
                             <Input
                                 id="name"
                                 type="text"
@@ -171,7 +176,7 @@ export default function ImageUpload() {
                                 id="description"
                                 value={descriptionImage}
                                 placeholder="Descrição da Imagem"
-                                className="h-24 text-start align-top py-2"
+                                className="h-24 w-full text-start align-top py-2"
                                 disabled={loading}
                                 required
                                 onChange={(e) => { setDescriptionImage(e.target.value) }}
@@ -185,6 +190,10 @@ export default function ImageUpload() {
                                 disabled={loading}
                                 onChange={(e) => { setTagsImage(e.target.value) }}
                             /> */}
+                            <div className="flex items-center gap-2">
+                                <Switch id="Privado" checked={privateImage}  onCheckedChange={setPrivateImage}/>
+                                <Label htmlFor="Privado">{privateImage ? "Imagem Privada" : "Imagem Publica"}</Label>
+                            </div>
                         </div>
                     </div>
                 )}
@@ -210,7 +219,7 @@ export default function ImageUpload() {
                         <div className="mt-4 grid grid-cols-3 gap-4 mb-4">
                             {
                                 imageUrl.map((img) => (
-                                    <CardContainer img={img} setImageUrl={setImageUrl} key={img.id}  />
+                                    <CardContainer img={img} setImageUrl={setImageUrl} key={img.id} />
                                 ))
                             }
                         </div>
