@@ -24,6 +24,9 @@ export async function POST(req: Request) {
     const description = formData.get("description") as string;
     const tagsString = formData.get("tags") as string;
     const tags = JSON.parse(tagsString) as string[];
+    const privateImage = formData.get("private") as string;
+    const isPrivate = JSON.parse(privateImage);
+     
 
     if (!file) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
@@ -32,7 +35,7 @@ export async function POST(req: Request) {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    const uploadReponse = await new Promise<any>((resolve, reject) => {
+    const uploadResponse = await new Promise<any>((resolve, reject) => {
       cloudinary.uploader
         .upload_stream({ folder: "images" }, (error, result) => {
           if (error) reject(error);
@@ -41,7 +44,7 @@ export async function POST(req: Request) {
         .end(buffer);
     });
 
-    if (!uploadReponse.secure_url) {
+    if (!uploadResponse.secure_url) {
       return NextResponse.json(
         { error: "Error uploading Image" },
         { status: 500 }
@@ -50,10 +53,11 @@ export async function POST(req: Request) {
 
     const createdImage = await prisma.userImage.create({
       data: {
-        secureUrl: uploadReponse.secure_url,
-        publicId: uploadReponse.public_id,
+        secureUrl: uploadResponse.secure_url,
+        publicId: uploadResponse.public_id,
         name,
         description,
+        isPrivate,
         user: {
           connect: {
             email: session.user?.email as string,
@@ -79,11 +83,12 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({
-      id: uploadReponse.public_id,
-      secureUrl: uploadReponse.secure_url,
-      publicId: uploadReponse.public_id,
+      id: uploadResponse.public_id,
+      secureUrl: uploadResponse.secure_url,
+      publicId: uploadResponse.public_id,
       name: createdImage.name,
-      description: createdImage.description
+      description: createdImage.description,
+      isPrivate: createdImage.isPrivate,
     });
   } catch (error) {
     return NextResponse.json(
