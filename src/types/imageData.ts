@@ -4,4 +4,6 @@ export type ImageData = {
   publicId: string;
   name: string;
   description: string;
+  createAt: string;
+  isPrivate: boolean;
 };
