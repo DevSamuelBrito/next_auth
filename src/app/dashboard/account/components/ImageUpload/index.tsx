@@ -69,6 +69,7 @@ export default function ImageUpload() {
         formData.append("name", nameImage)
         formData.append("description", descriptionImage)
         formData.append("tags", JSON.stringify(tagsImage))
+        formData.append("private", JSON.stringify(privateImage));
 
         const res = await fetch("/api/upload", { //sempre colocar / antes do nome da rota para nao dar problema
             method: "POST",
@@ -79,6 +80,14 @@ export default function ImageUpload() {
         setUploadError(false);
 
         try {
+
+            if (!file || nameImage.trim() === "" || descriptionImage.trim() === "") {
+                setUploadError(true);
+                toast.error("Por favor, preencha todos os campos obrigatórios.");
+                setLoading(false);
+                return;
+            }
+
             const data = JSON.parse(text); // aqui eu tento  converter para JSON
             if (data.secureUrl && data.publicId) {
                 setImageUrl(prev => [
@@ -89,6 +98,7 @@ export default function ImageUpload() {
                         publicId: data.publicId,
                         name: data.name,
                         description: data.description,
+                        isPrivate: data.isPrivate
                     },
                 ]);// aqui ele vai pegar o array anterior e vai adicionar a nova imagem.
                 toast.success("Imagem enviada com sucesso!");
@@ -100,6 +110,8 @@ export default function ImageUpload() {
             setLoading(false);
             setPreview(null);
             setNameImage("");
+            setFile(null);
+            setPrivateImage(false);
             setDescriptionImage("");
         }
     }
@@ -191,7 +203,13 @@ export default function ImageUpload() {
                                 onChange={(e) => { setTagsImage(e.target.value) }}
                             /> */}
                             <div className="flex items-center gap-2">
-                                <Switch id="Privado" checked={privateImage}  onCheckedChange={setPrivateImage}/>
+                                <Switch
+                                    id="Privado"
+                                    checked={privateImage}
+                                    onCheckedChange={(checked) => {
+                                        setPrivateImage(checked);
+                                    }}
+                                />
                                 <Label htmlFor="Privado">{privateImage ? "Imagem Privada" : "Imagem Publica"}</Label>
                             </div>
                         </div>
