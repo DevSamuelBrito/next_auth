@@ -29,15 +29,28 @@ export function CardImagem({ img, onDelete }: { img: any, onDelete: (id: string)
                         height={200}
                     />
                 </DialogTrigger>
-                <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="max-w-fit bg-transparent border-none shadow-none p-0  [&>button.absolute]:text-black [&>button.absolute]:text-3xl" >
-                    <Image
-                        src={img.secureUrl}
-                        alt={`Preview ${img.id}`}
-                        width={900}
-                        height={600}
-                        className="rounded-xl object-contain"
-                    />
+                <DialogContent
+                    onOpenAutoFocus={(e) => e.preventDefault()}
+                    className="p-0 bg-white rounded-xl overflow-hidden max-w-[90vw] md:max-w-[600px] h-[80vh] flex flex-col"
+                >
+                    <div className="flex-shrink-0 w-full max-h-[60%]">
+                        <Image
+                            src={img.secureUrl}
+                            alt={`Preview ${img.id}`}
+                            width={800}
+                            height={600}
+                            className="w-full h-full object-contain bg-black"
+                        />
+                    </div>
+
+                    <div className="flex-1 overflow-auto p-4 flex flex-col gap-2">
+                        <h2 className="text-lg text-black font-bold">{img.name}</h2>
+                        <p className="text-gray-600 break-words whitespace-pre-wrap">
+                            {img.description}
+                        </p>
+                    </div>
                 </DialogContent>
+
             </Dialog>
 
             {/* Dialog para EXCLUSÃO */}
