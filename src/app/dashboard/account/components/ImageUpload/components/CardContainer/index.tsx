@@ -8,6 +8,7 @@ interface CardContainerProps {
         publicId: string;
         name: string;
         description: string;
+        createAt: string
     };
     setImageUrl: React.Dispatch<React.SetStateAction<ImageData[]>>
     ;
@@ -42,6 +43,7 @@ export default function CardContainer({ img, setImageUrl }: CardContainerProps) 
                 <p className="italic overflow-hidden whitespace-nowrap text-ellipsis w-full text-center">
                     {img.description}
                 </p>
+                
             </div>
 
         </div>
