@@ -98,7 +98,8 @@ export default function ImageUpload() {
                         publicId: data.publicId,
                         name: data.name,
                         description: data.description,
-                        isPrivate: data.isPrivate
+                        isPrivate: data.isPrivate,
+                        createAt: data.createAt
                     },
                 ]);// aqui ele vai pegar o array anterior e vai adicionar a nova imagem.
                 toast.success("Imagem enviada com sucesso!");

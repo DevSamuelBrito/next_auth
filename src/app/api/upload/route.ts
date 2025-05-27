@@ -89,6 +89,7 @@ export async function POST(req: Request) {
       name: createdImage.name,
       description: createdImage.description,
       isPrivate: createdImage.isPrivate,
+      createAt: createdImage.createAt,
     });
   } catch (error) {
     return NextResponse.json(
