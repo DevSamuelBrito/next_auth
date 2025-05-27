@@ -14,32 +14,34 @@ datasource db {
 }
 
 model User {
-  id String @id @default(cuid())
-  name String 
-  username String @unique
-  email String @unique
-  password String
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
-  profilePicture String? 
+  id                     String      @id @default(cuid())
+  name                   String
+  username               String      @unique
+  email                  String      @unique
+  password               String
+  createAt               DateTime    @default(now())
+  updateAt               DateTime    @updatedAt
+  profilePicture         String?
   profilePicturePublicId String?
-  images UserImage[]
+  images                 UserImage[]
 }
 
 model UserImage {
-  id String @id @default(cuid())
-  secureUrl String 
-  publicId String
-  userId String
-  user User @relation(fields: [userId],references: [id])
-  name String
+  id          String          @id @default(cuid())
+  secureUrl   String
+  publicId    String
+  userId      String
+  user        User            @relation(fields: [userId], references: [id])
+  name        String
   description String
-  tags UserImageTags[]
+  tags        UserImageTags[]
+  createAt    DateTime        @default(now())
+  isPrivate   Boolean         @default(false)
 }
 
 model Tag {
-  id String @id @default(cuid())
-  name String @unique
+  id     String          @id @default(cuid())
+  name   String          @unique
   images UserImageTags[]
 }
 
@@ -50,6 +52,5 @@ model UserImageTags {
   image UserImage @relation(fields: [imageId], references: [id])
   tag   Tag       @relation(fields: [tagId], references: [id])
 
-  @@id([imageId, tagId])  // Chave composta para não repetir a mesma tag na mesma imagem
+  @@id([imageId, tagId]) // Chave composta para não repetir a mesma tag na mesma imagem
 }
-
