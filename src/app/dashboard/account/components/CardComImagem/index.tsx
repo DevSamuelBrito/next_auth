@@ -11,8 +11,59 @@ import {
     DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export function CardImagem({ img, onDelete }: { img: any, onDelete: (id: string) => void }) {
+
+    const [loading, setLoading] = useState(false);
+    const [imageStatus, setImageStatus] = useState<boolean | null>(null);
+
+    useEffect(() => {
+        const fetchImageStatus = async () => {
+            setLoading(true);
+            try {
+                const res = await fetch(`/api/images/${img.id}/visibility`);
+                const data = await res.json();
+                console.log("Data do fetchImage:", data);
+                setImageStatus(data.isPrivate);
+            } catch (err) {
+                toast.error("Erro ao buscar status da imagem");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchImageStatus();
+    }, [img.id]);
+
+    const handleVisibilityToggle = async () =>{
+        setLoading(true);
+        try {
+            const res = await fetch(`/api/images/${img.id}/visibility`, {
+                method: 'PATCH',
+            });
+
+            if (!res.ok) {
+                throw new Error("Erro ao atualizar visibilidade da imagem");
+            }
+
+            const data = await res.json();
+            setImageStatus(data.isPrivate);
+            toast.success(`Imagem ${data.isPrivate ? "tornada privada" : "tornada pública"} com sucesso!`);
+        } catch (err) {
+            toast.error("Erro ao atualizar visibilidade da imagem");
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const formattedDate = new Intl.DateTimeFormat('pt-br', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+    }).format(new Date(img.createAt));
+
     return (
         <div key={img.id} className="relative aspect-video rounded-xl group">
             {/* Dialog para PREVIEW */}
@@ -31,7 +82,7 @@ export function CardImagem({ img, onDelete }: { img: any, onDelete: (id: string)
                 </DialogTrigger>
                 <DialogContent
                     onOpenAutoFocus={(e) => e.preventDefault()}
-                    className="p-0 bg-white rounded-xl overflow-hidden max-w-[90vw] md:max-w-[600px] h-[80vh] flex flex-col"
+                    className="p-0 bg-white rounded-xl overflow-hidden max-w-[90vw] md:max-w-[600px] max-h-[80vh] flex flex-col"
                 >
                     <div className="flex-shrink-0 w-full max-h-[60%]">
                         <Image
@@ -43,8 +94,22 @@ export function CardImagem({ img, onDelete }: { img: any, onDelete: (id: string)
                         />
                     </div>
 
-                    <div className="flex-1 overflow-auto p-4 flex flex-col gap-2">
-                        <h2 className="text-lg text-black font-bold">{img.name}</h2>
+                    <div className="flex-1 overflow-auto p-4 pt-0 flex flex-col gap-2">
+                        <div className="w-1/4">
+                            <Button
+                            disabled={loading}
+                                variant={"secondary"}
+                                onClick={handleVisibilityToggle}
+                            >
+                                {loading ? "Carregando..." : imageStatus ? "Tornar Pública" : "Tornar Privada"}
+                            </Button>
+                        </div>
+                        <div className="flex flex-row justify-between items-center  w-full">
+                            <h2 className="text-lg text-black font-bold w-1/2">{img.name}</h2>
+                            <p className="italic overflow-hidden whitespace-nowrap text-ellipsis  text-black text-end w-1/2">
+                                {formattedDate}
+                            </p>
+                        </div>
                         <p className="text-gray-600 break-words whitespace-pre-wrap">
                             {img.description}
                         </p>
