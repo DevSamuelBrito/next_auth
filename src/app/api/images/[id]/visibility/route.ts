@@ -4,8 +4,9 @@ import { NextResponse } from "next/server";
 //metodo para buscar a imagem e devolver o status de visibilidade
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  context : { params: Promise<{ id: string }> }
 ) {
+  const params = await context.params;
   const { id } = params;
 
   const image = await prisma.userImage.findUnique({
@@ -20,14 +21,15 @@ export async function GET(
   if (!image) {
     return NextResponse.json({ error: "Image not found" }, { status: 404 });
   }
-  return NextResponse.json({ image: image.isPrivate }, { status: 200 });
+  return NextResponse.json({isPrivate: image.isPrivate }, { status: 200 });
 }
 
 //metodo para atualizar a visibilidade da imagem
 export async function PATCH(
   req: Request,
-  { params }: { params: { id: string } }
+  context : { params: Promise<{ id: string }> }
 ) {
+  const params = await context.params;
   const { id } = params;
 
   const image = await prisma.userImage.findUnique({
@@ -55,5 +57,5 @@ export async function PATCH(
     }
   })
 
-  return NextResponse.json({ image: updateImage.isPrivate }, { status: 200 });
+  return NextResponse.json({isPrivate: updateImage.isPrivate} , { status: 200 });
 }
