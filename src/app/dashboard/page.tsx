@@ -15,14 +15,9 @@ export default async function Page() {
         redirect("/");
     }
 
-
-    const user = await prisma.user.findMany({
-        select: { images: true }
+    const publicImages = await prisma.userImage.findMany({
+        where: { isPrivate: false }
     })
-
-    const allImages = user.flatMap(user => user.images || []);
-    // const allImages = [];
-
 
     return (
 
@@ -31,9 +26,9 @@ export default async function Page() {
             {/* <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min" /> */}
             <div className="grid auto-rows-min gap-4 md:grid-cols-3 w-full">
                 {
-                    allImages.length > 0 ? (
+                    publicImages.length > 0 ? (
 
-                        allImages.map((image, index) => (
+                        publicImages.map((image, index) => (
                             image ? (
 
                                 <div key={index} className="aspect-video rounded-xl">
