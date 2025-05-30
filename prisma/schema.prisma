@@ -14,16 +14,17 @@ datasource db {
 }
 
 model User {
-  id                     String      @id @default(cuid())
+  id                     String               @id @default(cuid())
   name                   String
-  username               String      @unique
-  email                  String      @unique
+  username               String               @unique
+  email                  String               @unique
   password               String
-  createAt               DateTime    @default(now())
-  updateAt               DateTime    @updatedAt
+  createAt               DateTime             @default(now())
+  updateAt               DateTime             @updatedAt
   profilePicture         String?
   profilePicturePublicId String?
   images                 UserImage[]
+  passwordResetToken     PasswordResetToken[]
 }
 
 model UserImage {
@@ -53,4 +54,12 @@ model UserImageTags {
   tag   Tag       @relation(fields: [tagId], references: [id])
 
   @@id([imageId, tagId]) // Chave composta para não repetir a mesma tag na mesma imagem
+}
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  expiresAt DateTime
 }
