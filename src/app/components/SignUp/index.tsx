@@ -40,8 +40,10 @@ export function SignUpForm({
       return;
     }
 
-    alert("Usuário criado com sucesso!");
-    redirect("/");
+    toast.success("Usuário criado com sucesso! Você será redirecionado para a página de login.");
+    setTimeout(
+      redirect("/")
+      , 3000)
   }
 
   return (
@@ -79,7 +81,7 @@ export function SignUpForm({
                 />
                 <p className="text-sm italic text-center">O Username tem que ser unico.</p>
               </div>
-              
+
               <div className="grid gap-3">
                 <Label htmlFor="email">Email</Label>
                 <Input
