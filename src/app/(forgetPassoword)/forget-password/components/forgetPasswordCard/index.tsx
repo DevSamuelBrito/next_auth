@@ -31,21 +31,21 @@ export function ForgetPasswordCard({
             body: JSON.stringify({ email })
         })
 
-        if (!res.ok) {
-            toast.error("Erro ao enviar email");
-            return;
-        }
-        toast.success("Email enviado com sucesso! Verifique a sua caixa de entrada.");
+
+        toast.success("Se o email existir, um link de recuperação será enviado para o seu email. Verifique sua caixa de entrada ou spam.");
+
+
         setTimeout(() => {
-            redirect("/dashboard/profile");
+            redirect("/");
         }, 3000)
+        setEmail("");
     }
 
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
             <Card>
                 <CardHeader>
-                    <ArrowLeft size={20} className="mb-2" onClick={() => redirect("/dashboard/profile")} cursor="pointer" />
+                    <ArrowLeft size={20} className="mb-2" onClick={() => redirect("/")} cursor="pointer" />
                     <CardTitle>Verificar Email</CardTitle>
                     <CardDescription>
                         Digite o seu email abaixo para recuperar a sua conta. Caso ela exista, um email de verificação será enviado para o seu email.
@@ -57,11 +57,11 @@ export function ForgetPasswordCard({
                             <div className="grid gap-2">
                                 <Input
                                     id="email"
-                                    type="text"
+                                    type="email"
                                     value={email}
                                     placeholder="Digite o seu Email"
                                     required
-                                    onChange={(e)=> setEmail(e.target.value)}
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
 
