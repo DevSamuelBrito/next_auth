@@ -229,7 +229,7 @@ export default function ImageUpload() {
 
             <div className="flex flex-col items-center justify-center 2xl:mx-24 mx-15 bg-[#171717] rounded-2xl">
                 <div className="flex items-start mt-4 w-11/12">
-                    <p className="text-start text-[#96938d] hover:text-white">
+                    <p className="text-start text-[#96938d] hover:text-white transition-all duration-300 text-lg cursor-default">
                         {session?.user?.name ? `Galeria de ${session.user.name}:` : "Sua Galeria:"}
                     </p>
                 </div>
