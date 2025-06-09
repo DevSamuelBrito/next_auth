@@ -1,4 +1,4 @@
-import { Trash } from "lucide-react";
+import { Trash, X } from "lucide-react";
 import Image from "next/image";
 import {
     Dialog,
@@ -66,11 +66,11 @@ export function CardImagem({ img, onDelete }: { img: any, onDelete: (id: string)
 
     return (
         <div key={img.id} className="relative group">
-            {/* Dialog para PREVIEW */}
             <Dialog>
                 <DialogHeader>
                     <DialogTitle className="sr-only">Visualizar imagem</DialogTitle>
                 </DialogHeader>
+                {/* Dialog para PREVIEW */}
                 <DialogTrigger asChild className=" z-10 aspect-video rounded-xl  bg-zinc-500 overflow-hidden">
                     <Image
                         src={img.secureUrl}
@@ -80,40 +80,45 @@ export function CardImagem({ img, onDelete }: { img: any, onDelete: (id: string)
                         height={200}
                     />
                 </DialogTrigger>
-
+                {/*Dialog quando aberto o Modal*/}
                 <DialogContent
                     onOpenAutoFocus={(e) => e.preventDefault()}
-                    className="p-0 bg-white rounded-xl overflow-hidden max-w-[90vw] md:max-w-[600px] max-h-[80vh] flex flex-col"
+                    className="p-0 bg-white rounded-xl overflow-hidden min-w-[60vw] min-h-[30vw] max-w-[90vw] max-h-[90vh] flex flex-col md:flex-row text-white md:text-black"
                 >
-                    <div className="flex-shrink-0 w-full max-h-[60%]">
+
+                    {/* Lado da imagem */}
+                    <div className="w-full md:w-[70%] h-[300px] md:h-auto bg-black flex items-center justify-center">
                         <Image
                             src={img.secureUrl}
                             alt={`Preview ${img.id}`}
                             width={800}
                             height={600}
-                            className="w-full h-full object-contain bg-black"
+                            className="max-w-full max-h-full object-contain"
                         />
                     </div>
 
-                    <div className="flex-1 overflow-auto p-4 pt-0 flex flex-col gap-2">
-                        <div className="w-1/4">
+                    {/* Lado do conteúdo */}
+                    <div className="w-full md:w-[30%] h-full flex flex-col p-4 pt-10">
+                        {/* Conteúdo com scroll */}
+                        <div className="flex-1 overflow-auto pr-1">
+                            <h2 className="text-lg font-bold text-black">{img.name}</h2>
+                            <p className="text-sm italic text-zinc-600">{formattedDate}</p>
+                            <p className="text-gray-600 break-words whitespace-pre-wrap mt-2">
+                                {img.description}
+                            </p>
+                        </div>
+
+                        {/* Botão fixo ao final */}
+                        <div className="pt-4 border-t border-zinc-200">
                             <Button
                                 disabled={loading}
                                 variant={"secondary"}
                                 onClick={handleVisibilityToggle}
+                                className="w-full"
                             >
                                 {loading ? "Carregando..." : imageStatus ? "Tornar Pública" : "Tornar Privada"}
                             </Button>
                         </div>
-                        <div className="flex flex-row justify-between items-center  w-full">
-                            <h2 className="text-lg text-black font-bold w-1/2">{img.name}</h2>
-                            <p className="italic overflow-hidden whitespace-nowrap text-ellipsis  text-black text-end w-1/2">
-                                {formattedDate}
-                            </p>
-                        </div>
-                        <p className="text-gray-600 break-words whitespace-pre-wrap">
-                            {img.description}
-                        </p>
                     </div>
                 </DialogContent>
 
