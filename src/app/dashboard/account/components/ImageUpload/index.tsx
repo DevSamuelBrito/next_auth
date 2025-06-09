@@ -11,6 +11,7 @@ import { ImageData } from "@/types/imageData";
 import CardContainer from "./components/CardContainer";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import UserGallery from "./components/UserGallery";
 
 
 export default function ImageUpload() {
@@ -117,8 +118,6 @@ export default function ImageUpload() {
         }
     }
 
-    console.log(session)
-
     return (
         <div>
             <form
@@ -194,15 +193,6 @@ export default function ImageUpload() {
                                 required
                                 onChange={(e) => { setDescriptionImage(e.target.value) }}
                             />
-                            {/* <Input
-                                id="tag"
-                                type="text"
-                                value={tagsImage}
-                                placeholder="Tags da Imagem"
-                                required
-                                disabled={loading}
-                                onChange={(e) => { setTagsImage(e.target.value) }}
-                            /> */}
                             <div className="flex items-center gap-2">
                                 <Switch
                                     id="Privado"
@@ -227,27 +217,7 @@ export default function ImageUpload() {
                 }
             </form>
 
-            <div className="flex flex-col items-center justify-center 2xl:mx-24 mx-15 bg-[#171717] rounded-2xl">
-                <div className="flex items-start mt-4 w-11/12">
-                    <p className="text-start text-[#96938d] hover:text-white transition-all duration-300 text-lg cursor-default">
-                        {session?.user?.name ? `Galeria de ${session.user.name}:` : "Sua Galeria:"}
-                    </p>
-                </div>
-                {
-                    imageUrl.length > 0 ? (
-                        <div className="mt-4 grid grid-cols-3 gap-4 mb-4">
-                            {
-                                imageUrl.map((img) => (
-                                    <CardContainer img={img} setImageUrl={setImageUrl} key={img.id} />
-                                ))
-                            }
-                        </div>
-                    ) : (
-
-                        <p className="italic mt-4 mb-8">Você não fez upload de nenhuma imagem ainda...</p>
-                    )
-                }
-            </div>
+            <UserGallery imageUrl={imageUrl} session={session} setImageUrl={setImageUrl} />
         </div>
     )
 }
