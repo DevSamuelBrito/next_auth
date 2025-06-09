@@ -37,7 +37,7 @@ export function CardImagem({ img, onDelete }: { img: any, onDelete: (id: string)
         fetchImageStatus();
     }, [img.id]);
 
-    const handleVisibilityToggle = async () =>{
+    const handleVisibilityToggle = async () => {
         setLoading(true);
         try {
             const res = await fetch(`/api/images/${img.id}/visibility`, {
@@ -65,21 +65,22 @@ export function CardImagem({ img, onDelete }: { img: any, onDelete: (id: string)
     }).format(new Date(img.createAt));
 
     return (
-        <div key={img.id} className="relative aspect-video rounded-xl group">
+        <div key={img.id} className="relative group">
             {/* Dialog para PREVIEW */}
             <Dialog>
                 <DialogHeader>
                     <DialogTitle className="sr-only">Visualizar imagem</DialogTitle>
                 </DialogHeader>
-                <DialogTrigger asChild>
+                <DialogTrigger asChild className=" z-10 aspect-video rounded-xl  bg-zinc-500 overflow-hidden">
                     <Image
                         src={img.secureUrl}
                         alt={`Image ${img.id}`}
-                        className="w-full h-full object-cover rounded-xl cursor-pointer hover:brightness-75 transition"
+                        className="w-full h-full object-contain rounded-xl cursor-pointer transition duration-200"
                         width={300}
                         height={200}
                     />
                 </DialogTrigger>
+
                 <DialogContent
                     onOpenAutoFocus={(e) => e.preventDefault()}
                     className="p-0 bg-white rounded-xl overflow-hidden max-w-[90vw] md:max-w-[600px] max-h-[80vh] flex flex-col"
@@ -97,7 +98,7 @@ export function CardImagem({ img, onDelete }: { img: any, onDelete: (id: string)
                     <div className="flex-1 overflow-auto p-4 pt-0 flex flex-col gap-2">
                         <div className="w-1/4">
                             <Button
-                            disabled={loading}
+                                disabled={loading}
                                 variant={"secondary"}
                                 onClick={handleVisibilityToggle}
                             >
@@ -122,7 +123,7 @@ export function CardImagem({ img, onDelete }: { img: any, onDelete: (id: string)
             <Dialog>
                 <DialogTrigger asChild>
                     <button
-                        className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition border-2 border-white hover:scale-110 duration-150"
+                        className="z-1 absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition border-2 border-white hover:scale-110 duration-150"
                     >
                         <Trash className="text-white" />
                     </button>
