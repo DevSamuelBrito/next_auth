@@ -32,7 +32,7 @@ const PublicImagesList = ({ images }: { images: PublicImage[] }) => {
             <div className="grid auto-rows-min gap-4 md:grid-cols-3 w-full">
                 {
                     images.map((image, index) => (
-                        <div key={index} className="aspect-video rounded-xl">
+                        <div key={index} className="bg-[#292828] rounded-xl border-[1px] border-gray flex flex-col items-center justify-center aspect-video ">
                             <Image
                                 onClick={() => setSelectedImage(image)}
                                 src={image.secureUrl}
@@ -41,6 +41,12 @@ const PublicImagesList = ({ images }: { images: PublicImage[] }) => {
                                 width={300}
                                 height={200}
                             />
+                            <div className="flex flex-col items-center w-[200px] justify-center  overflow-hidden">
+                                <p className="font-bold  overflow-hidden whitespace-nowrap text-ellipsis w-full text-center">{image.name}</p>
+                                <p className="italic overflow-hidden whitespace-nowrap text-ellipsis w-full text-center">
+                                    {image.description}
+                                </p>
+                            </div>
                         </div>
                     ))
                 }
