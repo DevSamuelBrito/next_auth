@@ -18,20 +18,21 @@ const UserGallery = ({ imageUrl, session, setImageUrl, loadingImage }: UserGalle
 
     if (loadingImage) {
         content = (
-            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4 w-full">
                 {[...Array(3)].map((_, i) => (
                     <div
                         key={i}
-                        className="bg-[#292828] rounded-2xl border-[1px] border-gray flex flex-col items-center justify-center animate-pulse w-64 h-64"
+                        className="bg-[#292828] rounded-2xl border border-gray-700 flex flex-col items-center justify-center animate-pulse h-52 w-full"
                     />
                 ))}
             </div>
+
         );
     } else if (imageUrl.length === 0) {
         content = (
             <p className="italic mt-4 mb-8">Você não fez upload de nenhuma imagem ainda...</p>
         );
-    } else{
+    } else {
         content = (
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
                 {imageUrl.map((img) => (
@@ -40,28 +41,6 @@ const UserGallery = ({ imageUrl, session, setImageUrl, loadingImage }: UserGalle
             </div>
         );
     }
-
-
-
-    // if (!loadingImage && imageUrl.length === 0) {
-    //     content = (
-    //         <p className="italic mt-4 mb-8">Você não fez upload de nenhuma imagem ainda...</p>
-    //     )
-    // } else if (imageUrl.length > 0) {
-    //     content = (
-    //         <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-    //             {imageUrl.map((img) => (
-    //                 <CardContainer img={img} setImageUrl={setImageUrl} key={img.id} />
-    //             ))}
-    //         </div>
-    //     )
-    // } else {
-    //     content = <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-    //         {[...Array(3)].map((_, i) => (
-    //             <div key={i} className="bg-[#292828] rounded-2xl border-[1px] border-gray flex flex-col items-center justify-center animate-pulse w-64 h-64" />
-    //         ))}
-    //     </div>
-    // }
     return (
         <div className="flex flex-col items-center justify-center 2xl:mx-24 mx-15 bg-[#171717] rounded-2xl">
             <div className="flex items-start mt-4 w-11/12">
