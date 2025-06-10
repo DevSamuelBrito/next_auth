@@ -13,6 +13,7 @@ export default function ImageUpload() {
     const [file, setFile] = useState<File | null>(null);
     const [imageUrl, setImageUrl] = useState<ImageData[]>([]);
     const [loading, setLoading] = useState(false);
+    const [loadingImages, setLoadingImages] = useState(true);
     const [preview, setPreview] = useState<string | null>(null);
     const [descriptionImage, setDescriptionImage] = useState<string>("");
     const [uploadError, setUploadError] = useState(false);
@@ -34,7 +35,7 @@ export default function ImageUpload() {
             });
             const data = await res.json();
             setImageUrl(data.images);
-            console.log("Imagens do usuário:", data.images);
+            setLoadingImages(false);
         };
 
         fetchSession();
@@ -128,23 +129,22 @@ export default function ImageUpload() {
 
     return (
         <div>
-            <FormUploadImage 
-            onFileChange={handleFileChange}
-            onFileUpload={handleUpload}
-            preview={preview}
-            setPreview={setPreview}
-            loading={loading}
-            uploadError={uploadError}
-            setFile={setFile}
-            nameImage={nameImage}
-            setNameImage={setNameImage}
-            descriptionImage={descriptionImage}
-            setDescriptionImage={setDescriptionImage}
-            privateImage={privateImage}
-            setPrivateImage={setPrivateImage}
+            <FormUploadImage
+                onFileChange={handleFileChange}
+                onFileUpload={handleUpload}
+                preview={preview}
+                setPreview={setPreview}
+                loading={loading}
+                uploadError={uploadError}
+                setFile={setFile}
+                nameImage={nameImage}
+                setNameImage={setNameImage}
+                descriptionImage={descriptionImage}
+                setDescriptionImage={setDescriptionImage}
+                privateImage={privateImage}
+                setPrivateImage={setPrivateImage}
             />
-
-            <UserGallery imageUrl={imageUrl} session={session} setImageUrl={setImageUrl} />
+            <UserGallery imageUrl={imageUrl} session={session} setImageUrl={setImageUrl} loadingImage={loadingImages} />
         </div>
     )
 }
