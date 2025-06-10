@@ -65,13 +65,13 @@ export function CardImagem({ img, onDelete }: { img: any, onDelete: (id: string)
     }).format(new Date(img.createAt));
 
     return (
-        <div key={img.id} className="relative group">
+        <div key={img.id} className="relative group bg-black w-full rounded-2xl">
             <Dialog>
                 <DialogHeader>
                     <DialogTitle className="sr-only">Visualizar imagem</DialogTitle>
                 </DialogHeader>
                 {/* Dialog para PREVIEW */}
-                <DialogTrigger asChild className=" z-10 aspect-video rounded-xl  bg-zinc-500 overflow-hidden">
+                <DialogTrigger asChild className=" z-10 aspect-video rounded-xl  mt-1 bg-black overflow-hidden">
                     <Image
                         src={img.secureUrl}
                         alt={`Image ${img.id}`}
