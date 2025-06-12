@@ -1,4 +1,4 @@
-import { Trash } from "lucide-react";
+import { Download, Heart } from "lucide-react";
 import Image from "next/image";
 import {
     Dialog,
@@ -6,18 +6,34 @@ import {
     DialogContent,
     DialogHeader,
     DialogTitle,
-    DialogDescription,
-    DialogFooter,
-    DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { PublicImage } from "../..";
 
 interface CardImageDashBoardProps {
     img: PublicImage;
 }
+
+
+const handleDownload = async (url: string, filename: string) => {
+  try {
+    const response = await fetch(url);
+    const blob = await response.blob();
+
+    const blobUrl = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = blobUrl;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(blobUrl);
+    toast.success("Imagem baixada com sucesso");
+  } catch (error) {
+    toast.error("Erro ao baixar a imagem");
+  }
+};
 
 export function CardImageDashBoard({ img }: CardImageDashBoardProps) {
 
@@ -27,6 +43,7 @@ export function CardImageDashBoard({ img }: CardImageDashBoardProps) {
         month: '2-digit',
         year: 'numeric',
     }).format(new Date(img.createAt));
+    console.log(img.secureUrl)
 
     return (
         <div key={img.id} className="relative group bg-black w-full rounded-2xl">
@@ -70,6 +87,24 @@ export function CardImageDashBoard({ img }: CardImageDashBoardProps) {
                             <p className="text-gray-600 break-words whitespace-pre-wrap mt-2">
                                 {img.description}
                             </p>
+                        </div>
+                        <div className="pt-4 border-t border-zinc-200 flex flex-col gap-2">
+                            <Button
+                                variant={"secondary"}
+                                className="w-full"
+                            >
+                                Salvar Foto <Heart />
+                            </Button>
+                            <a  download={img.secureUrl}>
+                                <Button
+                                    onClick={()=>handleDownload(img.secureUrl, img.name)}
+                                    variant={"secondary"}
+                                    className="w-full"
+                                >
+                                    Baixar Foto <Download />
+                                </Button>
+                            </a>
+
                         </div>
                     </div>
                 </DialogContent>
