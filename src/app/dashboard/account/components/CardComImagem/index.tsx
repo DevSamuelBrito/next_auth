@@ -1,4 +1,4 @@
-import { Trash, X } from "lucide-react";
+import { Download, Trash} from "lucide-react";
 import Image from "next/image";
 import {
     Dialog,
@@ -25,7 +25,6 @@ export function CardImagem({ img, onDelete }: { img: any, onDelete: (id: string)
             try {
                 const res = await fetch(`/api/images/${img.id}/visibility`);
                 const data = await res.json();
-                console.log("Data do fetchImage:", data);
                 setImageStatus(data.isPrivate);
             } catch (err) {
                 toast.error("Erro ao buscar status da imagem");
@@ -58,6 +57,25 @@ export function CardImagem({ img, onDelete }: { img: any, onDelete: (id: string)
         }
     }
 
+    const handleDownload = async (url: string, filename: string) => {
+        try {
+            const response = await fetch(url);
+            const blob = await response.blob();
+
+            const blobUrl = window.URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = blobUrl;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.URL.revokeObjectURL(blobUrl);
+            toast.success("Imagem baixada com sucesso");
+        } catch (error) {
+            toast.error("Erro ao baixar a imagem");
+        }
+    };
+
     const formattedDate = new Intl.DateTimeFormat('pt-br', {
         day: '2-digit',
         month: '2-digit',
@@ -71,7 +89,7 @@ export function CardImagem({ img, onDelete }: { img: any, onDelete: (id: string)
                     <DialogTitle className="sr-only">Visualizar imagem</DialogTitle>
                 </DialogHeader>
                 {/* Dialog para PREVIEW */}
-                <DialogTrigger asChild className=" z-10 aspect-video rounded-xl  mt-1 bg-black overflow-hidden">
+                <DialogTrigger asChild className=" z-10 aspect-video rounded-xl  mt-1 bg-blackoverflow-hidden">
                     <Image
                         src={img.secureUrl}
                         alt={`Image ${img.id}`}
@@ -118,6 +136,18 @@ export function CardImagem({ img, onDelete }: { img: any, onDelete: (id: string)
                             >
                                 {loading ? "Carregando..." : imageStatus ? "Tornar Pública" : "Tornar Privada"}
                             </Button>
+                        </div>
+                        <div className="pt-4 border-t border-zinc-200">
+
+                            <a download={img.secureUrl}>
+                                <Button
+                                    onClick={() => handleDownload(img.secureUrl, img.name)}
+                                    variant={"secondary"}
+                                    className="w-full"
+                                >
+                                    Baixar Foto <Download />
+                                </Button>
+                            </a>
                         </div>
                     </div>
                 </DialogContent>
