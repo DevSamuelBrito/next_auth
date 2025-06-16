@@ -1,7 +1,4 @@
-"use client";
 
-import { useState } from "react";
-import Image from "next/image";
 import { CardImageDashBoard } from "./components/CardImageDashboard";
 
 export interface PublicImage {
@@ -13,10 +10,10 @@ export interface PublicImage {
     description: string;
     createAt: Date;
     isPrivate: boolean;
+    isFavorite:boolean;
 }
 
 const PublicImagesList = ({ images }: { images: PublicImage[] }) => {
-    const [selectedImage, setSelectedImage] = useState<PublicImage | null>(null);
 
     if (!images.length) {
         return <div className="flex items-center justify-center col-span-full row-span-full min-h-[400px]">

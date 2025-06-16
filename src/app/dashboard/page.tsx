@@ -13,15 +13,29 @@ export default async function Dashboard() {
         redirect("/");
     }
 
+
     const publicImages = await prisma.userImage.findMany({
-        where: { isPrivate: false }
+        where: { isPrivate: false },
+        include: {
+            FavoriteImage: {
+                where: {
+                    userEmail: session?.user?.email || "",
+                }
+            }
+        }
     })
+
+    const imagesWithFavoriteFlag = publicImages.map((img) => ({
+        ...img,
+        isFavorite: img.FavoriteImage.length > 0,
+    }));
+
 
     return (
 
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
             <p>Imagens Públicadas:</p>
-            <PublicImagesList images={publicImages} />
+            <PublicImagesList images={imagesWithFavoriteFlag} />
         </div>
 
     )
