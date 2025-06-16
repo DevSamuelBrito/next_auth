@@ -25,19 +25,21 @@ model User {
   profilePicturePublicId String?
   images                 UserImage[]
   passwordResetToken     PasswordResetToken[]
+  FavoriteImage          FavoriteImage[]
 }
 
 model UserImage {
-  id          String          @id @default(cuid())
-  secureUrl   String
-  publicId    String
-  userId      String
-  user        User            @relation(fields: [userId], references: [id])
-  name        String
-  description String
-  tags        UserImageTags[]
-  createAt    DateTime        @default(now())
-  isPrivate   Boolean         @default(false)
+  id            String          @id @default(cuid())
+  secureUrl     String
+  publicId      String
+  userId        String
+  user          User            @relation(fields: [userId], references: [id])
+  name          String
+  description   String
+  tags          UserImageTags[]
+  createAt      DateTime        @default(now())
+  isPrivate     Boolean         @default(false)
+  FavoriteImage FavoriteImage[]
 }
 
 model Tag {
@@ -55,6 +57,7 @@ model UserImageTags {
 
   @@id([imageId, tagId]) // Chave composta para não repetir a mesma tag na mesma imagem
 }
+
 model PasswordResetToken {
   id        String   @id @default(cuid())
   token     String   @unique
@@ -62,4 +65,15 @@ model PasswordResetToken {
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   expiresAt DateTime
+}
+
+model FavoriteImage {
+  id        String    @id @default(cuid())
+  userEmail    String
+  imageId   String
+  user      User      @relation(fields: [userEmail], references: [email])
+  image     UserImage @relation(fields: [imageId], references: [id])
+  createdAt DateTime  @default(now())
+
+  @@unique([userEmail, imageId])
 }
