@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { PublicImage } from "../..";
+import { useState } from "react";
 
 interface CardImageDashBoardProps {
     img: PublicImage;
@@ -18,31 +19,60 @@ interface CardImageDashBoardProps {
 
 
 const handleDownload = async (url: string, filename: string) => {
-  try {
-    const response = await fetch(url);
-    const blob = await response.blob();
+    try {
+        const response = await fetch(url);
+        const blob = await response.blob();
 
-    const blobUrl = window.URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = blobUrl;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    window.URL.revokeObjectURL(blobUrl);
-    toast.success("Imagem baixada com sucesso");
-  } catch (error) {
-    toast.error("Erro ao baixar a imagem");
-  }
+        const blobUrl = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = blobUrl;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.URL.revokeObjectURL(blobUrl);
+        toast.success("Imagem baixada com sucesso");
+    } catch (error) {
+        toast.error("Erro ao baixar a imagem");
+    }
 };
 
 export function CardImageDashBoard({ img }: CardImageDashBoardProps) {
+
+    const [isFavorite, setIsFavorite] = useState(img.isFavorite);
+    const [isLoading, setIsLoading] = useState(false);
 
     const formattedDate = new Intl.DateTimeFormat('pt-br', {
         day: '2-digit',
         month: '2-digit',
         year: 'numeric',
     }).format(new Date(img.createAt));
+
+    const toogleFavorite = async () => {
+        try {
+            setIsLoading(true);
+            const response = await fetch("/api/favorite", {
+                method: isFavorite ? "DELETE" : "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    imageId: img.id
+                })
+            })
+
+            if (!response.ok) {
+                toast.error("Erro ao atualizar favorito");
+            }
+            setIsFavorite(!isFavorite);
+            toast.success(img.isFavorite ? "Removido dos favoritos" : "Adicionado aos favoritos");
+
+        } catch (error) {
+            toast.error("Erro ao favoritar a imagem");
+        }finally{
+            setIsLoading(false);
+        }
+    }
 
     return (
         <div key={img.id} className="relative group bg-black w-full rounded-2xl">
@@ -90,22 +120,24 @@ export function CardImageDashBoard({ img }: CardImageDashBoardProps) {
                             <Button
                                 variant={"secondary"}
                                 className="w-full"
+                                onClick={toogleFavorite}
+                                disabled={isLoading}
                             >
                                 {
-                                    img.isFavorite ?(
+                                    isFavorite ? (
                                         <>
-                                            Desfavoritar Foto <HeartOff/>
+                                            Desfavoritar Foto <HeartOff />
                                         </>
-                                    ):(
+                                    ) : (
                                         <>
                                             Salvar Foto <Heart />
                                         </>
                                     )
                                 }
                             </Button>
-                            <a  download={img.secureUrl}>
+                            <a download={img.secureUrl}>
                                 <Button
-                                    onClick={()=>handleDownload(img.secureUrl, img.name)}
+                                    onClick={() => handleDownload(img.secureUrl, img.name)}
                                     variant={"secondary"}
                                     className="w-full"
                                 >
