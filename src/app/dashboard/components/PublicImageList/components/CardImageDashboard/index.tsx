@@ -1,4 +1,5 @@
-import { Download, Heart } from "lucide-react";
+"use client"
+import { Download, Heart, HeartOff } from "lucide-react";
 import Image from "next/image";
 import {
     Dialog,
@@ -37,13 +38,11 @@ const handleDownload = async (url: string, filename: string) => {
 
 export function CardImageDashBoard({ img }: CardImageDashBoardProps) {
 
-
     const formattedDate = new Intl.DateTimeFormat('pt-br', {
         day: '2-digit',
         month: '2-digit',
         year: 'numeric',
     }).format(new Date(img.createAt));
-    console.log(img.secureUrl)
 
     return (
         <div key={img.id} className="relative group bg-black w-full rounded-2xl">
@@ -66,7 +65,6 @@ export function CardImageDashBoard({ img }: CardImageDashBoardProps) {
                     onOpenAutoFocus={(e) => e.preventDefault()}
                     className="p-0 bg-white rounded-xl overflow-hidden min-w-[60vw] min-h-[30vw] max-w-[90vw] max-h-[90vh] flex flex-col md:flex-row text-white md:text-black"
                 >
-
                     {/* Lado da imagem */}
                     <div className="w-full md:w-[70%] h-[300px] md:h-auto bg-black flex items-center justify-center">
                         <Image
@@ -93,7 +91,17 @@ export function CardImageDashBoard({ img }: CardImageDashBoardProps) {
                                 variant={"secondary"}
                                 className="w-full"
                             >
-                                Salvar Foto <Heart />
+                                {
+                                    img.isFavorite ?(
+                                        <>
+                                            Desfavoritar Foto <HeartOff/>
+                                        </>
+                                    ):(
+                                        <>
+                                            Salvar Foto <Heart />
+                                        </>
+                                    )
+                                }
                             </Button>
                             <a  download={img.secureUrl}>
                                 <Button
