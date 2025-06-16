@@ -50,16 +50,16 @@ export function SignUpForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle>Sign Up to your account</CardTitle>
+          <CardTitle>Crie a sua Conta</CardTitle>
           <CardDescription>
-            Enter your email below to sign up to your account
+            Crie uma conta para acessar o sistema. Preencha os campos abaixo com suas informações.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-3">
-                <Label htmlFor="email">Name</Label>
+                <Label htmlFor="email">Nome</Label>
                 <Input
                   id="name"
                   type="text"
@@ -70,7 +70,7 @@ export function SignUpForm({
                 />
               </div>
               <div className="grid gap-3">
-                <Label htmlFor="email">Username</Label>
+                <Label htmlFor="email">Apelido</Label>
                 <Input
                   id="username"
                   type="text"
@@ -79,7 +79,7 @@ export function SignUpForm({
                   required
                   onChange={(e) => setUsername(e.target.value)}
                 />
-                <p className="text-sm italic text-center">O Username tem que ser unico.</p>
+                <p className="text-sm italic text-center">O Apelido tem que ser unico.</p>
               </div>
 
               <div className="grid gap-3">
@@ -108,14 +108,14 @@ export function SignUpForm({
               </div>
               <div className="flex flex-col gap-3">
                 <Button type="submit" className="w-full">
-                  Sign Up
+                  Criar Conta
                 </Button>
               </div>
             </div>
             <div className="mt-4 text-center text-sm">
-              Already have an account?{" "}
+              Já tem uma Conta?{" "}
               <Link href="/" className="underline underline-offset-4">
-                Login
+                Ir para o Login
               </Link>
             </div>
           </form>
