@@ -27,7 +27,7 @@ export function NavPages({
       <SidebarGroupLabel>Páginas</SidebarGroupLabel>
       <SidebarMenu>
         {projects.map((item) => (
-          <SidebarMenuItem key={item.name}>
+          <SidebarMenuItem key={item.name} className="hover:scale-105 transition-all duration-200 cursor-pointer">
             <SidebarMenuButton asChild>
               <a href={item.url}>
                 <item.icon />
