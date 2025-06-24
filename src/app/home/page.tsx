@@ -1,3 +1,4 @@
+import ContentSection from "@/components/content-hero";
 import HeroSection from "@/components/hero";
 import NavbarHome from "@/components/nav-home";
 
@@ -6,6 +7,7 @@ const Home = () => {
         <div>
             <NavbarHome />
             <HeroSection />
+            <ContentSection />
         </div>
     );
 }
