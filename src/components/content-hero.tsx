@@ -4,7 +4,7 @@ import imgUrl from '@/images/content-pic.jpg'
 export default function ContentSection() {
     return (
         <section className="py-16 md:py-32">
-            <div className="mx-auto max-w-5xl space-y-8 px-6 md:space-y-12">
+            <div className="mx-auto max-w-5xl space-y-8 px-6 md:space-y-12" id="about">
                 <div className="mx-auto max-w-xl space-y-6 text-center md:space-y-12">
                     <h2 className="text-balance text-4xl font-medium lg:text-5xl">Crie e compartilhe sua galeria de fotos com facilidade no portifol.io</h2>
                     <p className='text-base xl:text-lg'>Um espaço gratuito para fotógrafos, criadores de conteúdo e entusiastas organizarem suas imagens, salvarem favoritas, visualizarem trabalhos de outras pessoas e exibirem suas criações de forma simples e bonita.</p>
