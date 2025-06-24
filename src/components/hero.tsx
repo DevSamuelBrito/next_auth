@@ -8,10 +8,10 @@ export default function HeroSection() {
     return (
         <main className="overflow-x-hidden">
             <section>
-                <div className="pb-24 pt-12 md:pb-32 lg:pb-56 lg:pt-22">
+                <div className="pb-12 pt-12 md:pb-32 lg:pb-24 lg:pt-22">
                     <div className="relative mx-auto flex max-w-7xl flex-col px-6 gap-10 lg:flex-row lg:items-center">
                         <div className="mx-auto max-w-lg text-center lg:ml-0 lg:w-1/2 lg:text-left">
-                            <h1 className="mt-8 max-w-2xl text-balance text-3xl font-medium md:text-6xl lg:mt-16 xl:text-7xl">
+                            <h1 className="mt-8 max-w-2xl text-balance text-3xl font-medium md:text-6xl lg:mt-16 xl:text-6xl">
                                 Transformando ideias em experiências digitais incríveis.
                             </h1>
                             <p className="mt-8 max-w-2xl text-pretty text-lg">
@@ -24,11 +24,7 @@ export default function HeroSection() {
                                         <span className="text-nowrap">Vamos Começar!</span>
                                     </Link>
                                 </Button>
-                                <Button asChild size="lg" variant="ghost" className="px-5 text-base">
-                                    <Link href="#link">
-                                        <span className="text-nowrap">Request a demo</span>
-                                    </Link>
-                                </Button>
+                                
                             </div>
                         </div>
 
