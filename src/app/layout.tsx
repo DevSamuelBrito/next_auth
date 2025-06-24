@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br" className="dark">      
-      <body className="bg-background text-foreground">
+      <body className="bg-background text-foreground scroll-smooth">
         <ThemeProvider attribute="class">
           {children}
           <Toaster />
