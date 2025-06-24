@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image"
 import logo from "@/app/favicon.ico"
 import { Button } from "@/components/ui/button"
@@ -13,11 +14,18 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 
-// Navigation links array to be used in both desktop and mobile menus
+import { scrollToSection } from '@/lib/scrollTo';
+
+const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    scrollToSection(id);
+};
+
+
 const navigationLinks = [
-    { href: "#", label: "Features", active: true },
-    { href: "#", label: "Pricing", active: true },
-    { href: "#", label: "About", active: true },
+    { href: "#about", label: "Sobre", active: true },
+    { href: "#features", label: "Funcionalidades", active: true },
+    { href: "#faq", label: "Perguntas", active: true },
 ]
 
 export default function NavbarHome() {
@@ -69,6 +77,7 @@ export default function NavbarHome() {
                                             <NavigationMenuLink
                                                 href={link.href}
                                                 className="py-1.5"
+                                                onClick={(e) => handleClick(e, link.href.replace('#', ''))}
                                                 active={link.active}
                                             >
                                                 {link.label}
@@ -85,7 +94,7 @@ export default function NavbarHome() {
                             <Image
                                 src={logo}
                                 alt="Logo Portifol.io"
-                                width={32} 
+                                width={32}
                                 height={32}
                                 className="rounded-sm"
                             />
@@ -100,6 +109,7 @@ export default function NavbarHome() {
                                         <NavigationMenuLink
                                             active={!link.active}
                                             href={link.href}
+                                            onClick={(e) => handleClick(e, link.href.replace('#', ''))}
                                             className="text-muted-foreground hover:text-primary py-1.5 font-medium"
                                         >
                                             {link.label}
