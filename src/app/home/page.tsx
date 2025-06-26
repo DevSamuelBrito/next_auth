@@ -5,6 +5,7 @@ import ContentTwo from "../../components/content-two";
 import StatsSection from "@/components/stats";
 import FAQ from "@/components/faq";
 import FooterSection from "@/components/footer";
+import ScrollToTopButton from "@/components/scroll-to-top";
 
 const Home = () => {
     return (
@@ -16,6 +17,7 @@ const Home = () => {
             <ContentTwo />
             <FAQ />
             <FooterSection />
+            <ScrollToTopButton />
         </div>
     );
 }

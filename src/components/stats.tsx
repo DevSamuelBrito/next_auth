@@ -7,7 +7,7 @@ export default function StatsSection() {
                     <p>Veja alguns dados e benefícios do porque você deve dar uma olhada no nosso projeto que usar o NextAuth.js e Cloudinary.</p>
                 </div>
 
-                <div className="grid gap-0.5 *:text-center md:grid-cols-3 dark:[--color-muted:var(--color-zinc-900)]">
+                <div className="grid gap-2 *:text-center md:grid-cols-3 dark:[--color-muted:var(--color-zinc-900)]">
                     <div className="bg-muted rounded-(--radius) space-y-4 py-12">
                         <div className="text-5xl font-bold">+10</div>
                         <p>Provedores de login com NextAuth.js</p>
