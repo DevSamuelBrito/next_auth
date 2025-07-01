@@ -11,6 +11,8 @@ import { redirect } from "next/navigation";
 import React, { useState } from "react";
 import { ArrowLeft } from "lucide-react"
 import { toast } from "sonner";
+import Image from "next/image";
+import img from '@/app/favicon.ico';
 
 
 interface ResetPasswordCardProps {
@@ -52,8 +54,17 @@ export function ResetPasswordCard({ className, token, ...props }: Props) {
         <div className={cn("flex flex-col gap-6", className)} {...props}>
             <Card>
                 <CardHeader>
-                    <ArrowLeft size={20} className="mb-2" onClick={() => redirect("/")} cursor="pointer" />
-                    <CardTitle>Resetar Senha</CardTitle>
+                    <div className="flex items-center gap-1 w-full justify-center">
+                        <Image
+                            src={img.src}
+                            alt={"Image Icon"}
+                            width={30}
+                            height={30}
+                        />
+                        <CardTitle className="text-center text-xl">Portifol.io</CardTitle>
+                    </div>
+                        <p className="text-center mb-4 text-gray-500">v.1.0.0</p>
+                    <CardTitle className="text-center text-xl">Resetar sua Senha</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit}>
