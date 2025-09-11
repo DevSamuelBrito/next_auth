@@ -71,12 +71,12 @@ export default function NavbarHome() {
                         </PopoverTrigger>
                         <PopoverContent align="start" className="w-36 p-1 md:hidden">
                             <NavigationMenu className="max-w-none *:w-full">
-                                <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
+                                <NavigationMenuList className="flex-col items-start gap-3 md:gap-2">
                                     {navigationLinks.map((link, index) => (
                                         <NavigationMenuItem key={index} className="w-full">
                                             <NavigationMenuLink
                                                 href={link.href}
-                                                className="py-1.5"
+                                                className="py-1.5 "
                                                 onClick={(e) => handleClick(e, link.href.replace('#', ''))}
                                                 active={link.active}
                                             >
