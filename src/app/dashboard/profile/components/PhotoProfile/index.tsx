@@ -88,7 +88,7 @@ const PhotoProfile = ({ image }: PhotoProfiileProps) => {
                 </Button>
                 <Dialog>
                     <DialogTrigger asChild>
-                        <Button variant="destructive" disabled={!preview} className="cursor-pointer" >Excluir Imagem</Button>
+                        <Button variant="destructive" disabled={!preview} className="cursor-pointer hover:!bg-red-900" >Excluir Imagem</Button>
                     </DialogTrigger>
 
                     <DialogContent>
@@ -100,7 +100,7 @@ const PhotoProfile = ({ image }: PhotoProfiileProps) => {
                         </DialogHeader>
                         <DialogFooter>
                             <DialogClose asChild>
-                                <Button variant="destructive" onClick={handleDelete} className="cursor-pointer">
+                                <Button variant="destructive" onClick={handleDelete} className="cursor-pointer hover:!bg-red-900">
                                     Confirmar
                                 </Button>
                             </DialogClose>
