@@ -61,7 +61,7 @@ const Profile = async () => {
                     <SectionEditPassword />
                 </div>
             </div>
-            <div className="2xl:mx-24 mx-16">
+            <div className="2xl:mx-24 mx-16 mt-3">
                 <ButtonDeleteAccount />
             </div>
         </div>

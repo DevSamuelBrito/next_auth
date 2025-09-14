@@ -23,7 +23,7 @@ const ButtonDeleteAccount = () => {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="destructive" className="cursor-pointer" >Excluir Conta</Button>
+                <Button variant="destructive" className="cursor-pointer min-h-10 min-w-32 hover:!bg-red-900">Excluir Conta</Button>
             </DialogTrigger>
 
             <DialogContent>
