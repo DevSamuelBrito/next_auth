@@ -11,14 +11,16 @@ import {
 } from "lucide-react"
 import { NavPages } from "@/components/nav-pages"
 import { NavUser } from "@/components/nav-user"
-import { TeamSwitcher } from "@/components/team-switcher"
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
+  SidebarMenuButton,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar"
+import { useRouter } from "next/navigation"
 
 // This is sample data.
 const data = {
@@ -31,7 +33,7 @@ const data = {
   ],
   tools: [
     {
-      name:"Inicio",
+      name: "Inicio",
       url: "/dashboard",
       icon: Home,
     },
@@ -51,7 +53,7 @@ const data = {
 interface UserProps {
   name: string,
   email: string,
-  username:string,
+  username: string,
 }
 
 async function fetchUser() {
@@ -64,7 +66,9 @@ async function fetchUser() {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const [user, setUser] = useState<UserProps| null>(null);
+  const [user, setUser] = useState<UserProps | null>(null);
+  const router = useRouter();
+
 
   useEffect(() => {
 
@@ -83,13 +87,24 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <SidebarMenuButton
+          size="lg"
+          className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+        >
+          <Avatar className="w-8 h-8 ">
+            <AvatarImage src="/favicon.ico" alt="Portifol.io" className="w-full h-full object-cover rounded-xs" />
+            <AvatarFallback>PF</AvatarFallback>
+          </Avatar>
+          <div className="grid flex-1 text-left text-sm leading-tight">
+            <span className="truncate font-medium">Portifol.io</span>
+          </div>
+        </SidebarMenuButton>
       </SidebarHeader>
       <SidebarContent>
         <NavPages projects={data.tools} />
       </SidebarContent>
       <SidebarFooter>
-      {user && <NavUser user={user} />}
+        {user && <NavUser user={user} />}
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
