@@ -25,7 +25,7 @@ interface FormUploadImageProps {
 const FormUploadImage = ({ onFileChange, onFileUpload, preview, setPreview, loading, uploadError, setFile, nameImage, setNameImage, descriptionImage, setDescriptionImage, privateImage, setPrivateImage }: FormUploadImageProps) => {
     return (
         <form
-            className="space-y-4 flex flex-col items-center justify-center 2xl:mx-24 mx-15 bg-[#171717] rounded-2xl mb-4"
+            className="space-y-4 flex flex-col items-center justify-center 2xl:mx-24 mx-10 bg-[#171717] rounded-2xl mb-4"
             onSubmit={onFileUpload}
         >
             <label
@@ -67,7 +67,7 @@ const FormUploadImage = ({ onFileChange, onFileUpload, preview, setPreview, load
                         </button>
 
                     </div>
-                    <div className="mt-4 flex flex-col w-1/2 gap-3 items-center">
+                    <div className="mt-4 flex flex-col w-3/4 gap-3 items-center">
                         <Input
                             id="name"
                             type="text"

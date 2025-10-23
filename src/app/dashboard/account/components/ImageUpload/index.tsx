@@ -19,7 +19,6 @@ export default function ImageUpload() {
     const [uploadError, setUploadError] = useState(false);
     const [session, setSession] = useState<any>(null);
     const [nameImage, setNameImage] = useState<string>("");
-    const [tagsImage, setTagsImage] = useState<string[]>(["Natureza", "Cidade"]);
     const [privateImage, setPrivateImage] = useState<boolean>(false);
 
     useEffect(() => {
@@ -64,7 +63,6 @@ export default function ImageUpload() {
         formData.append("file", file)
         formData.append("name", nameImage)
         formData.append("description", descriptionImage)
-        formData.append("tags", JSON.stringify(tagsImage))
         formData.append("private", JSON.stringify(privateImage));
 
         const res = await fetch("/api/upload", { //sempre colocar / antes do nome da rota para nao dar problema

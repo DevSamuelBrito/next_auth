@@ -30,7 +30,7 @@ const UserGallery = ({ imageUrl, session, setImageUrl, loadingImage }: UserGalle
         );
     } else if (imageUrl.length === 0) {
         content = (
-            <p className="italic mt-4 mb-8">Você não fez upload de nenhuma imagem ainda...</p>
+            <p className="italic mt-4 mb-8 max-w-9/12">Você não fez upload de nenhuma imagem ainda...</p>
         );
     } else {
         content = (
@@ -42,7 +42,7 @@ const UserGallery = ({ imageUrl, session, setImageUrl, loadingImage }: UserGalle
         );
     }
     return (
-        <div className="flex flex-col items-center justify-center 2xl:mx-24 mx-15 bg-[#171717] rounded-2xl">
+        <div className="flex flex-col items-center justify-center 2xl:mx-24 mx-10 mb-24 bg-[#171717] rounded-2xl ">
             <div className="flex items-start mt-4 w-11/12">
                 <p className="md:text-start text-[#96938d] hover:text-white transition-all duration-300 text-lg cursor-default text-center">
                     {session?.user?.name ? `Galeria de ${session.user.name}:` : "Sua Galeria:"}
