@@ -9,7 +9,6 @@ export function ButtonLogOut() {
             onClick={()=>{
                 signOut({ callbackUrl: '/' },
                 )
-                console.log("Usuário deslogado"); 
             }}
         >Sair</button>
     );

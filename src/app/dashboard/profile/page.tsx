@@ -4,7 +4,6 @@ import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import SectionProfilePicture from "./components/SectionProfilePicture";
-import SectionUserName from "./components/SectionUserName";
 import SectionEmail from "./components/SectionEmail";
 import SectionEditPassword from "./components/SectionEditPassword";
 import ButtonDeleteAccount from "./components/ButtonDeleteAccount";
@@ -33,7 +32,7 @@ const Profile = async () => {
 
     return (
         <div>
-            <div className="flex flex-col items-center justify-center 2xl:mx-24 mx-16">
+            <div className="flex flex-col items-center justify-center 2xl:mx-24 mx-10">
                 {/* Fora da Div principal */}
                 <p className="text-white font-semibold text-lg mb-2 self-start">Perfil</p>
 
@@ -46,6 +45,8 @@ const Profile = async () => {
                     {/*Div do nome do usuário */}
                     <SectionName user={user} />
                     <div className="w-full h-px bg-white/20 my-4" />
+                    
+                    {/* Div do username do usuário */}
                     <SectionUsername user={user} />
 
                     {/*Div do email */}
@@ -53,7 +54,7 @@ const Profile = async () => {
                     <SectionEmail user={user} />
                 </div>
             </div>
-            <div className="flex flex-col items-center justify-center 2xl:mx-24 mx-16">
+            <div className="flex flex-col items-center justify-center 2xl:mx-24 mx-10">
                 {/* Fora da Div principal */}
                 <p className="text-white font-semibold text-lg mb-2 self-start">Segurança</p>
                 <div className="space-y-4 flex flex-col items-center justify-center bg-[#171717] rounded-2xl mb-4 p-4 w-full">
@@ -61,7 +62,7 @@ const Profile = async () => {
                     <SectionEditPassword />
                 </div>
             </div>
-            <div className="2xl:mx-24 mx-16 mt-3">
+            <div className="2xl:mx-24 mx-16 mt-3 flex justify-center sm:justify-start">
                 <ButtonDeleteAccount />
             </div>
         </div>

@@ -59,6 +59,7 @@ const PhotoProfile = ({ image }: PhotoProfiileProps) => {
     return (
         <div className="w-full flex flex-col items-center gap-4">
             <input
+                aria-label="alterar imagem de perfil"
                 type="file"
                 onChange={handleChange}
                 accept="image/*"
@@ -82,8 +83,8 @@ const PhotoProfile = ({ image }: PhotoProfiileProps) => {
                 )}
             </div>
 
-            <div className="flex gap-4">
-                <Button type="button" className="cursor-pointer" onClick={() => inputRef.current?.click()}>
+            <div className="flex w-11/12 flex-col gap-4 sm:flex-row">
+                <Button type="button" className="cursor-pointer w-full sm:w-auto" onClick={() => inputRef.current?.click()}>
                     Adicionar Imagem
                 </Button>
                 <Dialog>

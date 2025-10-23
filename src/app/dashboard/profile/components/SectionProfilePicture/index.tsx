@@ -13,9 +13,9 @@ interface SectionProfilePictureProps {
 const SectionProfilePicture = ({ user }: SectionProfilePictureProps) => {
     return (
         <>
-            <div className="flex items center justify-between w-full p-6">
-                <div className="flex justify-center items-center gap-x-36">
-                    <span className="text-[#96938d] text-sm font-bold w-28">Foto de perfil</span>
+            <div className="flex flex-col items-center justify-between w-full p-6 sm:flex-row mb-0">
+                <div className="flex flex-col justify-center gap-1 items-center gap-x-36 sm:flex-row mr-0.5">
+                    <span className="text-[#96938d] text-sm font-bold w-28 text-center">Foto de perfil:</span>
                     {
                         user?.profilePicture ? (
                             <Image
@@ -36,7 +36,7 @@ const SectionProfilePicture = ({ user }: SectionProfilePictureProps) => {
                         )
                     }
                 </div>
-                <div className="flex items-center justify-center">
+                <div className="flex items-center justify-center mt-4 sm:mt-0 mb-0">
                     <Button className="cursor-pointer" onClick={() => { redirect("/changepicture") }}>
                         Alterar
                     </Button>

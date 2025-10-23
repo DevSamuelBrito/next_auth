@@ -86,16 +86,20 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader>
+     <SidebarHeader>
         <SidebarMenuButton
           size="lg"
-          className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+          className="flex items-center gap-3 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
         >
-          <Avatar className="w-8 h-8 ">
-            <AvatarImage src="/favicon.ico" alt="Portifol.io" className="w-full h-full object-cover rounded-xs" />
+          <Avatar className="w-6 h-6 md:w-8 md:h-8 rounded shrink-0 overflow-hidden">
+            <AvatarImage
+              src="/favicon.ico"
+              alt="Portifol.io"
+              className="w-full h-full object-cover"
+            />
             <AvatarFallback>PF</AvatarFallback>
           </Avatar>
-          <div className="grid flex-1 text-left text-sm leading-tight">
+          <div className="grid flex-1 text-left text-sm leading-tight overflow-hidden">
             <span className="truncate font-medium">Portifol.io</span>
           </div>
         </SidebarMenuButton>

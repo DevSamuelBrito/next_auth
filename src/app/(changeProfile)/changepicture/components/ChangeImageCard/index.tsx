@@ -26,7 +26,6 @@ export function ChangeImageCard({
             }
         );
         const data = await res.json();
-        console.log(data);
         setImageUrl(data.profilePicture);
     }
 
