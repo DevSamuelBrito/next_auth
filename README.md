@@ -1,25 +1,46 @@
-# NextAuth Photo and Gallery Application (In Work)
+# Portifol.io
 
-This is a Next.js application that demonstrates a comprehensive authentication system with user profile management and image gallery features.
+Next.js application that demonstrates a complete authentication system with profile management and an image gallery. Users can upload and remove photos, edit their name, username, password, and profile picture. This study project is designed to practice Next.js (App Router and API Routes), shadcn UI components, and Cloudinary integration for image storage.
+
+![Welcome Page](/public/readme/welcomePage.png)
 
 ## Features
-
-- **Authentication System**
-  - User registration and login with credentials
+- Authentication
+  - Registration and login with credentials
   - Session management with NextAuth.js
   - Password encryption with bcrypt
 
-- **User Profile Management**
-  - Profile picture upload and management
-  - Username editing
-  - Password changing
+- User profile
+  - Upload and manage profile picture
+  - Edit name and username
+  - Change password
   - Account deletion
 
-- **Photo Gallery**
-  - Image upload to Cloudinary
-  - Image preview before upload
-  - Gallery view of all uploaded images
-  - Image deletion
+- Password recovery
+  - Send recovery email (only works for the email registered in the API)
+  - Password reset page with token
+
+- Image upload and gallery
+  - Upload images to Cloudinary
+  - Preview before upload
+  - List of user images
+  - Delete images
+  - Mark images as favorites
+  - Set photos as private or public
+
+- Dashboard
+  - View all public photos
+  - Search for public photos
+  - View favorite photos
+
+- Integration and persistence
+  - Database via Prisma (PostgreSQL recommended)
+  - Migrations included
+
+- UI and experience
+  - Styling with Tailwind CSS
+  - shadcn UI components
+  - Notifications with Sonner
 
 ## Tech Stack
 
@@ -30,6 +51,8 @@ This is a Next.js application that demonstrates a comprehensive authentication s
 - [Tailwind CSS](https://tailwindcss.com/) - Styling
 - [Shadcn UI](https://ui.shadcn.com/) - UI components
 - [Sonner](https://sonner.emilkowal.ski/) - Toast notifications
+- [bcrypt](https://www.npmjs.com/package/bcrypt) - Password hashing
+- [Resend](https://resend.com/) - Email sending service
 
 ## Getting Started
 
@@ -57,6 +80,12 @@ NEXTAUTH_SECRET="your-nextauth-secret" NEXTAUTH_URL="http://localhost:3000"
 CLOUDINARY_CLOUD_NAME="your-cloud-name" CLOUDINARY_API_KEY="your-api-key" CLOUDINARY_API_SECRET="your-api-secret"
 ```
 
+### Resend
+```
+RESEND_API_KEY="your_resend_api_key"
+PERSONAL_EMAIL="your_email@example.com"
+```
+
 
 ### Installation
 
@@ -74,17 +103,51 @@ npm run dev
 
 Open http://localhost:3000 with your browser to see the application.
 
+---
+
 ### Project Structure
+
 * /src/app - Application routes
 * /src/components - Reusable UI components
 * /src/lib - Utility functions, auth configuration
 * /prisma - Database schema and migrations
-### Demo Pages
-* / - Home page with login form
-* /signup - Registration page
-* /dashboard - Main dashboard with user information
-* /dashboard/profile - User profile management
-* /dashboard/account - Photo gallery management
 
 ### Notes
+
 This is a demonstration project showcasing authentication and file management capabilities using the Next.js App Router. It's intended for educational purposes and as a starting point for similar applications.
+
+### Gallery
+
+- Welcome Page
+
+![Welcome Page](/public/readme/welcomePage.png)
+
+- Dashboard
+
+![Dashboard](/public/readme/dashboard.png)
+
+- Photo Details
+
+![Photo Details](/public/readme/modalPhoto.png)
+
+- Profile
+
+![Profile](/public/readme/profile.png)
+
+- Change Profile Picture
+
+![Change Profile Picture](/public/readme/editingProfilePicture.png)
+
+
+- Search
+
+![Search](/public/readme/searching.png)
+
+
+- Uploading Image
+
+![Uploading Image](/public/readme/uploadImage.png)
+
+- User Images
+
+![User Images](/public/readme/userGallery.png)
