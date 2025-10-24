@@ -42,7 +42,7 @@ export function SignUpForm({
 
     toast.success("Usuário criado com sucesso! Você será redirecionado para a página de login.");
     setTimeout(
-      redirect("/")
+      redirect("/login")
       , 3000)
   }
 
@@ -114,7 +114,7 @@ export function SignUpForm({
             </div>
             <div className="mt-4 text-center text-sm">
               Já tem uma Conta?{" "}
-              <Link href="/" className="underline underline-offset-4">
+              <Link href="/login" className="underline underline-offset-4">
                 Ir para o Login
               </Link>
             </div>

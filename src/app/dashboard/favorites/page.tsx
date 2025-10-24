@@ -9,7 +9,7 @@ export default async function FavoritesPage() {
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-        redirect("/");
+        redirect("/login");
     }
 
     const favoriteImages = await prisma.favoriteImage.findMany({

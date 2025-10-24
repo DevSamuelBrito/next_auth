@@ -7,7 +7,7 @@ const Account = async () => {
 
     const session = await getServerSession(authOptions);
     if (!session) {
-        redirect("/");
+        redirect("/login");
     }
 
     return (

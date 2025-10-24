@@ -36,7 +36,7 @@ export function ForgetPasswordCard({
 
 
         setTimeout(() => {
-            redirect("/");
+            redirect("/login");
         }, 3000)
         setEmail("");
     }
@@ -45,7 +45,7 @@ export function ForgetPasswordCard({
         <div className={cn("flex flex-col gap-6", className)} {...props}>
             <Card>
                 <CardHeader>
-                    <ArrowLeft size={20} className="mb-2" onClick={() => redirect("/")} cursor="pointer" />
+                    <ArrowLeft size={20} className="mb-2" onClick={() => redirect("/login")} cursor="pointer" />
                     <CardTitle>Verificar Email</CardTitle>
                     <CardDescription>
                         Digite o seu email abaixo para recuperar a sua conta. Caso ela exista, um email de verificação será enviado para o seu email.

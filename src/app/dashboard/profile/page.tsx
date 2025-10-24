@@ -13,7 +13,7 @@ import SectionUsername from "./components/EditUsername";
 const Profile = async () => {
     const session = await getServerSession(authOptions);
     if (!session) {
-        redirect("/");
+        redirect("/login");
     }
 
     const user = await prisma.user.findUnique({
@@ -27,7 +27,7 @@ const Profile = async () => {
     })
 
     if (!user) {
-        redirect("/");
+        redirect("/login");
     }
 
     return (

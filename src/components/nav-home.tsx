@@ -123,7 +123,7 @@ export default function NavbarHome() {
                 {/* Right side */}
                 <div className="flex items-center gap-2">
                     <Button asChild size="sm" className="text-sm">
-                        <a href="/">Vamos Lá</a>
+                        <a href="/login">Vamos Lá</a>
                     </Button>
                 </div>
             </div>

@@ -45,7 +45,7 @@ export function ResetPasswordCard({ className, token, ...props }: Props) {
         toast.success(data.message);
 
         setTimeout(() => {
-            redirect("/");
+            redirect("/login");
         }, 3000)
         setPassword("");
     }
